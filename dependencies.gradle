@@ -1,0 +1,98 @@
+def Group(Closure closure) {
+    closure.delegate = dependencies
+    return closure
+}
+
+ext {
+    kotlinVersion = '1.2.71'
+    kotlinSerializationVersion = '0.6.2'
+    kotlinCoroutinesVersion = '0.30.2'
+    ankoVersion = '0.10.7'
+    androidxVersion = '1.0.0'
+    constraintlayoutVersion = '1.1.3'
+    materialVersion = '1.0.0'
+    navigationVersion = '1.0.0-alpha06'
+    koinVersion = '1.0.1'
+    glideVersion = '4.8.0'
+
+    dep = [
+            kotlin    : [
+                    stdlib           : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
+                    serialization    : "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlinSerializationVersion",
+                    coroutines       : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVersion",
+                    coroutinesandroid: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinCoroutinesVersion"
+            ],
+            anko      : [
+                    anko         : "org.jetbrains.anko:anko:$ankoVersion",
+                    common       : "org.jetbrains.anko:anko-commons:$ankoVersion",
+                    sdk          : "org.jetbrains.anko:anko-sdk21:$ankoVersion",
+                    sdkcoroutines: "org.jetbrains.anko:anko-sdk21-coroutines:$ankoVersion"
+            ],
+            androidx  : [
+                    appcompat       : "androidx.appcompat:appcompat:$androidxVersion",
+                    corektx         : "androidx.core:core-ktx:$androidxVersion",
+                    constraintlayout: "androidx.constraintlayout:constraintlayout:$constraintlayoutVersion"
+            ],
+            material  : "com.google.android.material:material:$materialVersion",
+            navigation: [
+                    fragment   : "android.arch.navigation:navigation-fragment:$navigationVersion",
+                    ui         : "android.arch.navigation:navigation-ui:$navigationVersion",
+                    fragmentktx: "android.arch.navigation:navigation-fragment-ktx:$navigationVersion",
+                    uiktx      : "android.arch.navigation:navigation-ui-ktx:$navigationVersion"
+            ],
+            koin      : [
+                    core         : "org.koin:koin-core:$koinVersion",
+                    coreext      : "org.koin:koin-core-ext:$koinVersion",
+                    android      : "org.koin:koin-android:$koinVersion",
+                    androidXscope: "org.koin:koin-androidx-scope:$koinVersion"
+            ],
+            glide     : [
+                    glide   : "com.github.bumptech.glide:glide:$glideVersion",
+                    compiler: "com.github.bumptech.glide:compiler:$glideVersion",
+            ],
+            morphbottom :"com.tbuonomo:morph-bottom-navigation:1.0.1"
+    ]
+
+    kotlin = Group {
+        implementation dep.kotlin.stdlib
+        implementation dep.kotlin.serialization
+        implementation dep.kotlin.coroutines
+        implementation dep.kotlin.coroutinesandroid
+    }
+
+    anko = Group {
+        implementation dep.anko.anko
+        implementation dep.anko.common
+        //implementation dep.anko.sdk
+        //implementation dep.anko.sdkcoroutines
+    }
+
+    androidx = Group {
+        implementation dep.androidx.appcompat
+        implementation dep.androidx.corektx
+        implementation dep.androidx.constraintlayout
+    }
+
+    material = Group {
+        implementation dep.material
+    }
+
+    navigation = Group {
+        implementation dep.navigation.fragment
+        implementation dep.navigation.fragmentktx
+        implementation dep.navigation.ui
+        implementation dep.navigation.uiktx
+    }
+
+    koin = Group {
+        implementation dep.koin.core
+        implementation dep.koin.coreext
+        implementation dep.koin.android
+        implementation dep.koin.androidXscope
+    }
+
+    glide = Group {
+        implementation dep.glide.glide
+        kapt dep.glide.compiler
+    }
+}

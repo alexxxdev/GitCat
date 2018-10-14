@@ -1,0 +1,40 @@
+buildscript {
+    apply from: 'dependencies.gradle'
+
+    repositories {
+        google()
+        jcenter()
+        maven { url "https://kotlin.bintray.com/kotlinx" }
+        
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.3.0-alpha13'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "org.jetbrains.kotlinx:kotlinx-gradle-serialization-plugin:$kotlinSerializationVersion"
+        classpath "com.github.ben-manes:gradle-versions-plugin:0.20.0"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven { url 'https://jitpack.io' }
+        maven { url "https://kotlin.bintray.com/kotlinx" }
+    }
+    dependencies { apply from: "$rootProject.rootDir/dependencies.gradle" }
+}
+
+ext {
+    versionCode = 1
+    versionName = "0.1"
+
+    compileSdkVersion = 28
+    buildToolsVersion = "28.0.3"
+    minSdkVersion = 21
+    targetSdkVersion = 28
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
