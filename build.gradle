@@ -4,7 +4,9 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven { url "https://jitpack.io" }
         maven { url "https://kotlin.bintray.com/kotlinx" }
+        maven { url "https://plugins.gradle.org/m2/" }
         
     }
     dependencies {
@@ -12,8 +14,15 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "org.jetbrains.kotlinx:kotlinx-gradle-serialization-plugin:$kotlinSerializationVersion"
         classpath "com.github.ben-manes:gradle-versions-plugin:0.20.0"
+        classpath "gradle.plugin.io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detektGradlePluginVersion"
     }
 }
+
+plugins {
+    id "io.gitlab.arturbosch.detekt" version '1.0.0.RC9.2'
+}
+
+apply plugin: 'io.gitlab.arturbosch.detekt'
 
 allprojects {
     repositories {
@@ -21,6 +30,7 @@ allprojects {
         jcenter()
         maven { url 'https://jitpack.io' }
         maven { url "https://kotlin.bintray.com/kotlinx" }
+        maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies { apply from: "$rootProject.rootDir/dependencies.gradle" }
 }
@@ -37,4 +47,25 @@ ext {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+detekt {
+    toolVersion = detektGradlePluginVersion
+    config = files("${project.rootDir}/detekt/detekt-config.yml")
+    //baseline = file("${project.rootDir}/detekt/baseline.xml")
+    input = files(
+            "${project.rootDir}/app/src/main/kotlin"
+    )
+    filters = ".*/resources/.*,.*/build/.*"
+    reports {
+        html {
+            enabled = true
+            destination = file("${project.rootDir}/detekt/reports/detekt.html")
+        }
+    }
+    parallel = true
+}
+
+dependencies {
+    detekt "io.gitlab.arturbosch.detekt:detekt-formatting:$detektGradlePluginVersion"
 }
