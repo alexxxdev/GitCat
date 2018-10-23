@@ -52,8 +52,7 @@ ext {
                     glide   : "com.github.bumptech.glide:glide:$glideVersion",
                     compiler: "com.github.bumptech.glide:compiler:$glideVersion",
             ],
-            morphbottom :"com.tbuonomo:morph-bottom-navigation:1.0.1",
-            mosby:"com.hannesdorfmann.mosby3:viewstate:3.1.0"
+            morphbottom :"com.tbuonomo:morph-bottom-navigation:1.0.1"
     ]
 
     kotlin = Group {

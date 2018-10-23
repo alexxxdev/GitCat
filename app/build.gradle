@@ -19,7 +19,6 @@ android {
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
-        main.java.srcDirs += 'build/generated/not_namespaced_r_class_sources/debug/processDebugResources/r/com/github/alexxxdev/gitcat' //todo ?
     }
     buildTypes {
         release {
@@ -58,5 +57,4 @@ dependencies {
     glide()
 
     implementation dep.morphbottom
-    implementation dep.mosby
 }
