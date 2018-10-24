@@ -55,6 +55,7 @@ dependencies {
     navigation()
     koin()
     glide()
+    thirtyinch()
 
     implementation dep.morphbottom
 }

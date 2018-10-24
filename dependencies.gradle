@@ -14,6 +14,7 @@ ext {
     navigationVersion = '1.0.0-alpha06'
     koinVersion = '1.0.1'
     glideVersion = '4.8.0'
+    thirtyinchVersion = '0.9.0'
 
     detektGradlePluginVersion = '1.0.0.RC9.2'
 
@@ -52,7 +53,11 @@ ext {
                     glide   : "com.github.bumptech.glide:glide:$glideVersion",
                     compiler: "com.github.bumptech.glide:compiler:$glideVersion",
             ],
-            morphbottom :"com.tbuonomo:morph-bottom-navigation:1.0.1"
+            morphbottom :"com.tbuonomo:morph-bottom-navigation:1.0.1",
+            thirtyinch :[
+                core : "net.grandcentrix.thirtyinch:thirtyinch:$thirtyinchVersion",
+                kotlin : "net.grandcentrix.thirtyinch:thirtyinch-kotlin:$thirtyinchVersion"
+            ]
     ]
 
     kotlin = Group {
@@ -96,5 +101,10 @@ ext {
     glide = Group {
         implementation dep.glide.glide
         kapt dep.glide.compiler
+    }
+
+    thirtyinch = Group {
+        implementation dep.thirtyinch.core
+        implementation dep.thirtyinch.kotlin
     }
 }
