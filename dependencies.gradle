@@ -14,49 +14,56 @@ ext {
     navigationVersion = '1.0.0-alpha06'
     koinVersion = '1.0.1'
     glideVersion = '4.8.0'
+    fuelVersion = '1.15.1'
     thirtyinchVersion = '0.9.0'
 
     detektGradlePluginVersion = '1.0.0.RC9.2'
 
     dep = [
-            kotlin    : [
+            kotlin       : [
                     stdlib           : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
                     serialization    : "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlinSerializationVersion",
                     coroutines       : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVersion",
                     coroutinesandroid: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinCoroutinesVersion"
             ],
-            anko      : [
+            anko         : [
                     anko         : "org.jetbrains.anko:anko:$ankoVersion",
                     common       : "org.jetbrains.anko:anko-commons:$ankoVersion",
                     sdk          : "org.jetbrains.anko:anko-sdk21:$ankoVersion",
                     sdkcoroutines: "org.jetbrains.anko:anko-sdk21-coroutines:$ankoVersion"
             ],
-            androidx  : [
+            androidx     : [
                     appcompat       : "androidx.appcompat:appcompat:$androidxVersion",
                     corektx         : "androidx.core:core-ktx:$androidxVersion",
                     constraintlayout: "androidx.constraintlayout:constraintlayout:$constraintlayoutVersion"
             ],
-            material  : "com.google.android.material:material:$materialVersion",
-            navigation: [
+            material     : "com.google.android.material:material:$materialVersion",
+            navigation   : [
                     fragment   : "android.arch.navigation:navigation-fragment:$navigationVersion",
                     ui         : "android.arch.navigation:navigation-ui:$navigationVersion",
                     fragmentktx: "android.arch.navigation:navigation-fragment-ktx:$navigationVersion",
                     uiktx      : "android.arch.navigation:navigation-ui-ktx:$navigationVersion"
             ],
-            koin      : [
+            koin         : [
                     core         : "org.koin:koin-core:$koinVersion",
                     coreext      : "org.koin:koin-core-ext:$koinVersion",
                     android      : "org.koin:koin-android:$koinVersion",
                     androidXscope: "org.koin:koin-androidx-scope:$koinVersion"
             ],
-            glide     : [
+            glide        : [
                     glide   : "com.github.bumptech.glide:glide:$glideVersion",
                     compiler: "com.github.bumptech.glide:compiler:$glideVersion",
             ],
-            morphbottom :"com.tbuonomo:morph-bottom-navigation:1.0.1",
-            thirtyinch :[
-                core : "net.grandcentrix.thirtyinch:thirtyinch:$thirtyinchVersion",
-                kotlin : "net.grandcentrix.thirtyinch:thirtyinch-kotlin:$thirtyinchVersion"
+            morphbottom  : "com.tbuonomo:morph-bottom-navigation:1.0.1",
+            thirtyinch   : [
+                    core  : "net.grandcentrix.thirtyinch:thirtyinch:$thirtyinchVersion",
+                    kotlin: "net.grandcentrix.thirtyinch:thirtyinch-kotlin:$thirtyinchVersion"
+            ],
+            loadingbutton: "br.com.simplepass:loading-button-android:1.14.0",
+            fuel         : [
+                    android      : "com.github.kittinunf.fuel:fuel-android:$fuelVersion", //for Android
+                    coroutines   : "com.github.kittinunf.fuel:fuel-coroutines:$fuelVersion", //for Kotlin Coroutines support
+                    serialization: "com.github.kittinunf.fuel:fuel-kotlinx-serialization:$fuelVersion" //for Kotlin Coroutines support
             ]
     ]
 
@@ -106,5 +113,11 @@ ext {
     thirtyinch = Group {
         implementation dep.thirtyinch.core
         implementation dep.thirtyinch.kotlin
+    }
+
+    fuel = Group {
+        implementation dep.fuel.android
+        implementation dep.fuel.coroutines
+        implementation dep.fuel.serialization
     }
 }

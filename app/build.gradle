@@ -19,6 +19,8 @@ android {
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
+        main.java.srcDirs += 'build/generated/not_namespaced_r_class_sources/debug/processDebugResources/r/com/github/alexxxdev/gitcat'
+        //todo ?
     }
     buildTypes {
         release {
@@ -30,6 +32,10 @@ android {
         preDexLibraries true
         maxProcessCount 8
         javaMaxHeapSize "4g"
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -56,6 +62,8 @@ dependencies {
     koin()
     glide()
     thirtyinch()
+    fuel()
 
     implementation dep.morphbottom
+    implementation dep.loadingbutton
 }

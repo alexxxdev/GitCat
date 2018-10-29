@@ -1,7 +1,8 @@
 package com.github.alexxxdev.gitcat.ui.base
 
-import com.github.alexxxdev.gitcat.R
 import androidx.fragment.app.FragmentManager
+import com.github.alexxxdev.gitcat.R
+import com.github.alexxxdev.gitcat.ext.hideKeyboard
 import org.jetbrains.anko.startActivity
 
 open class BaseNavigator {
@@ -33,6 +34,7 @@ open class BaseNavigator {
 
     inline fun <reified A : BaseActivity<*, *>> navigateToActivity(finished: Boolean = false) {
         `access$activity`?.let { act ->
+            act.hideKeyboard()
             act.startActivity<A>()
             if (finished) act.finishAffinity()
         }
