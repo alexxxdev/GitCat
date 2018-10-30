@@ -22,7 +22,6 @@ import kotlinx.android.synthetic.main.fragment_login.loginConstrait
 import kotlinx.android.synthetic.main.fragment_login.loginED
 import kotlinx.android.synthetic.main.fragment_login.passED
 import kotlinx.android.synthetic.main.fragment_login.sendButton
-import org.jetbrains.anko.sdk27.coroutines.onClick
 
 const val ANIM_DURATION_DONE = 200L
 const val ANIM_DURATION_CHANGE_LAYOUT = 300L
@@ -45,7 +44,7 @@ class LoginFragment : BaseFragment<LoginContract.View, LoginPresenter>(), LoginC
     }
 
     override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
-        sendButton.onClick { onClickLogin() }
+        sendButton.setOnClickListener { onClickLogin() }
         passED.setOnEditorActionListener(actionListener { onClickLogin() })
         codeED.setOnEditorActionListener(actionListener { onClickSend2FACode() })
     }
@@ -73,7 +72,7 @@ class LoginFragment : BaseFragment<LoginContract.View, LoginPresenter>(), LoginC
     }
 
     override fun onNeedCode2FA() {
-        sendButton.onClick {}
+        sendButton.setOnClickListener {}
         with(Handler()) {
             postDelayed(doneAnimationRunnable, ANIM_DURATION_DONE)
             postDelayed({
@@ -89,7 +88,7 @@ class LoginFragment : BaseFragment<LoginContract.View, LoginPresenter>(), LoginC
 
                 TransitionManager.beginDelayedTransition(loginConstrait, transition)
                 constraint1.applyTo(loginConstrait)
-                sendButton.onClick { onClickSend2FACode() }
+                sendButton.setOnClickListener { onClickSend2FACode() }
             }, ANIM_DURATION_START_CHANGE_LAYOUT)
         }
     }

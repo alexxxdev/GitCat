@@ -12,7 +12,10 @@ import com.github.kittinunf.fuel.core.Request
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.fuel.serialization.kotlinxDeserializerOf
 import com.github.kittinunf.result.Result
+import kotlinx.serialization.ImplicitReflectionSerializer
 import kotlinx.serialization.json.JSON
+import kotlinx.serialization.parse
+import kotlinx.serialization.stringify
 import org.koin.standalone.KoinComponent
 
 const val HEADER_OTP = "X-GitHub-OTP"
@@ -38,6 +41,7 @@ class GithubAuthClient : KoinComponent {
         // FuelManager.instance.addResponseInterceptor(loggerInterceptor())
     }
 
+    @UseExperimental(ImplicitReflectionSerializer::class)
     fun login(login: String, password: String): Triple<Request, Response, Result<AuthorizationResponse, FuelError>> {
         val responseObject = Fuel.post("/authorizations")
                 .authenticate(login, password)
@@ -47,6 +51,7 @@ class GithubAuthClient : KoinComponent {
         return responseObject
     }
 
+    @UseExperimental(ImplicitReflectionSerializer::class)
     fun send2FACode(login: String?, password: String?, code: String): Triple<Request, Response, Result<AuthorizationResponse, FuelError>> {
         val responseObject = Fuel.post("/authorizations")
                 .header(HEADER_OTP to code)
@@ -58,6 +63,7 @@ class GithubAuthClient : KoinComponent {
     }
 }
 
+@UseExperimental(ImplicitReflectionSerializer::class)
 inline fun <reified T : Any> Triple<Request, Response, Result<T, FuelError>>.log(): String {
     var data: String = "(empty)"
     if (BuildConfig.DEBUG) {

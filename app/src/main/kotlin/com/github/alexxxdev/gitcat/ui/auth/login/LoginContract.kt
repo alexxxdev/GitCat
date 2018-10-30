@@ -18,6 +18,6 @@ interface LoginContract : BaseContract {
 
     interface Presenter : BaseContract.Presenter {
         fun login(login: String, password: String)
-        fun send2FACode(toString: String)
+        fun send2FACode(code: String)
     }
 }

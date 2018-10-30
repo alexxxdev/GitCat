@@ -80,11 +80,11 @@ class AuthRepository(val context: Context, val client: GithubAuthClient) {
     fun logout() {
         this.account = null
         AccountManager.get(context)?.let { am ->
-            am.getAccountsByType(ACCOUNT_TYPE).firstOrNull()?.let { account ->
+            am.getAccountsByType(ACCOUNT_TYPE).firstOrNull()?.also { account ->
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                    return@let am.removeAccountExplicitly(account)
+                    am.removeAccountExplicitly(account)
                 } else {
-                    return@let am.removeAccount(account, null, null)
+                    am.removeAccount(account, null, null)
                 }
             }
         }

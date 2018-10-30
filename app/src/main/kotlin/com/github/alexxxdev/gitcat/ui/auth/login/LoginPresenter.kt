@@ -5,11 +5,11 @@ import com.github.alexxxdev.gitcat.data.HEADER_OTP
 import com.github.alexxxdev.gitcat.data.REQUIRED_APP
 import com.github.alexxxdev.gitcat.data.REQUIRED_SMS
 import com.github.alexxxdev.gitcat.ui.base.BasePresenter
-import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.GlobalScope
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import net.grandcentrix.thirtyinch.kotlin.deliverToView
 
 class LoginPresenter : BasePresenter<LoginContract.View>(), LoginContract.Presenter {

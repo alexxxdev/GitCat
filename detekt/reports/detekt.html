@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>detekt report</title>
+    <style>
+h2 {
+  background-color: #666666;
+  padding: 0.2em;
+  color: #ffffff;
+}
+h3 {
+  background-color:#f8dfdf;
+  padding:0.5em;
+}
+.rule {
+  background-color: #dddddd;
+  padding: 0.3em;
+  font-weight: bold;
+}
+.description {
+  color:#000000;
+  padding:0.3em;
+}
+.location {
+  color: #690505;
+  font-family: monospace;
+}
+.message {
+  font-size: 0.8em;
+  color: #444444;
+}
+.rule-container {
+  border: 0.1em dashed #dddddd;
+  padding: 0.1em;
+  line-height: 1.5em;
+}
+</style>
+</head>
+<body>
+
+<h1>detekt report</h1>
+
+<h2>Metrics</h2>
+
+<ul>
+<li>
+number of kt files: 33
+</li>
+<li>
+number of packages: 12
+</li>
+<li>
+number of classes: 35
+</li>
+<li>
+number of functions: 71
+</li>
+<li>
+number of properties: 68
+</li>
+</ul>
+
+<h2>Findings</h2>
+<h3>empty-blocks</h3>
+<div class="rule-container">
+<span class="rule">
+EmptyInitBlock
+</span>
+<span class="description">
+Empty block of code detected. As they serve no purpose they should be removed.
+</span>
+</div>
+<ul>
+<li>
+<span class="location">
+/home/alexxxdev/Android/projects/GitCat/app/src/main/kotlin/com/github/alexxxdev/gitcat/data/GithubGraphQLClient.kt:13:10
+</span>
+<br />
+<span class="message">
+This empty block of code can be removed.
+</span>
+</li>
+</ul>
+<h3>naming</h3>
+<div class="rule-container">
+<span class="rule">
+VariableNaming
+</span>
+<span class="description">
+Variable names should follow the naming convention set in the projects configuration.
+</span>
+</div>
+<ul>
+<li>
+<span class="location">
+/home/alexxxdev/Android/projects/GitCat/app/src/main/kotlin/com/github/alexxxdev/gitcat/ui/base/BaseNavigator.kt:43:5
+</span>
+<br />
+<span class="message">
+Variable names should match the pattern: [a-z][A-Za-z0-9]*
+</span>
+</li>
+</ul>
+<h3>style</h3>
+<div class="rule-container">
+<span class="rule">
+ReturnCount
+</span>
+<span class="description">
+Restrict the number of return statements in methods.
+</span>
+</div>
+<ul>
+<li>
+<span class="location">
+/home/alexxxdev/Android/projects/GitCat/app/src/main/kotlin/com/github/alexxxdev/gitcat/ui/auth/login/LoginFragment.kt:110:5
+</span>
+<br />
+<span class="message">
+Function actionListener has 3 return statements which exceeds the limit of 2.
+</span>
+</li>
+<li>
+<span class="location">
+/home/alexxxdev/Android/projects/GitCat/app/src/main/kotlin/com/github/alexxxdev/gitcat/data/AuthRepository.kt:65:5
+</span>
+<br />
+<span class="message">
+Function isLoggedIn has 3 return statements which exceeds the limit of 2.
+</span>
+</li>
+</ul>
+
+</body>
+</html>

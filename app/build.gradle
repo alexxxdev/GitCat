@@ -53,17 +53,14 @@ configurations.compile.resolutionStrategy {
 
 dependencies {
     Map<String, String> dep = rootProject.ext.dep
-
     kotlin()
     anko()
     androidx()
     material()
-    navigation()
     koin()
     glide()
     thirtyinch()
     fuel()
-
     implementation dep.morphbottom
     implementation dep.loadingbutton
 }
