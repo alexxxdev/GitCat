@@ -15,7 +15,7 @@ val PRESENTER_CONFIG = TiConfiguration.Builder()
 
 open class BasePresenter<V : BaseContract.View> : TiPresenter<V>(PRESENTER_CONFIG), BaseContract.Presenter, KoinComponent {
 
-    val authRepository: AuthRepository by inject()
+    protected val authRepository by inject<AuthRepository>()
 
     @CallSuper
     override fun onDestroy() {

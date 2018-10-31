@@ -8,7 +8,7 @@ import org.koin.android.ext.android.inject
 
 class AuthenticatorService : Service() {
 
-    private val authenticator: Authenticator by inject()
+    private val authenticator by inject<Authenticator>()
 
     override fun onBind(intent: Intent?): IBinder? {
         return authenticator.iBinder
