@@ -8,7 +8,7 @@ import org.koin.android.ext.android.inject
 abstract class BaseActivity<V : BaseContract.View, P : BasePresenter<V>> : TiActivity<P, V>(), BaseContract.View {
     abstract val layoutId: Int
 
-    protected val navigator by inject<Navigator>()
+    private val navigator by inject<Navigator>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,9 +38,7 @@ abstract class BaseActivity<V : BaseContract.View, P : BasePresenter<V>> : TiAct
     private fun isLoggedIn(): Boolean = presenter.isLoggedIn()
 
     private fun onRequireLogin() {
-        presenter.requireLogin {
-            navigator.navigateToLogin(true)
-        }
+        presenter.requireLogin { presenter.gotoLogin() }
     }
 
     protected open fun isCheckedAuth(): Boolean = true

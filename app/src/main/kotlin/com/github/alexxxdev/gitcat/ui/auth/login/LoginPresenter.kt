@@ -52,4 +52,8 @@ class LoginPresenter : BasePresenter<LoginContract.View>(), LoginContract.Presen
         job.cancel()
         super.onDestroy()
     }
+
+    fun gotoHome() {
+        navigator.navigateToHome(true)
+    }
 }

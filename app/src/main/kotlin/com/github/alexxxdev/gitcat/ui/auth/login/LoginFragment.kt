@@ -56,7 +56,7 @@ class LoginFragment : BaseFragment<LoginContract.View, LoginPresenter>(), LoginC
                 sendButton.revertAnimation()
                 Snackbar.make(sendButton, "Success!", Snackbar.LENGTH_LONG).show()
             }, ANIM_DURATION_REVERT)
-            postDelayed({ navigator.navigateToHome(true) }, ANIM_DURATION_REVERT)
+            postDelayed({ presenter.gotoHome() }, ANIM_DURATION_REVERT)
         }
     }
 

@@ -6,16 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
-import com.github.alexxxdev.gitcat.ui.Navigator
 import net.grandcentrix.thirtyinch.TiFragment
-import org.koin.android.ext.android.inject
 
 abstract class BaseFragment<V : BaseContract.View, P : BasePresenter<V>> : TiFragment<P, V>(), BaseContract.View {
     abstract val layoutId: Int
 
     protected abstract fun onFragmentCreated(view: View, savedInstanceState: Bundle?)
-
-    protected val navigator by inject<Navigator>()
 
     @SuppressLint("MissingSuperCall")
     @CallSuper
