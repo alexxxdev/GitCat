@@ -8,7 +8,7 @@ import org.koin.android.ext.android.inject
 abstract class BaseActivity<V : BaseContract.View, P : BasePresenter<V>> : TiActivity<P, V>(), BaseContract.View {
     abstract val layoutId: Int
 
-    private val navigator by inject<Navigator>()
+    protected val navigator by inject<Navigator>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
