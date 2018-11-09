@@ -9,9 +9,7 @@ class AuthActivity : BaseActivity<AuthContract.View, AuthPresenter>(), AuthContr
     override val layoutId: Int = R.layout.activity_auth
     override fun providePresenter() = AuthPresenter()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                     .replace(R.id.container, LoginFragment.instance())

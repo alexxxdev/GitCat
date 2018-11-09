@@ -7,7 +7,8 @@ import com.github.alexxxdev.gitcat.ui.base.BaseActivity
 import com.github.alexxxdev.gitcat.ui.base.BaseFragment
 import com.github.alexxxdev.gitcat.ui.main.feed.FeedFragment
 import com.github.alexxxdev.gitcat.ui.main.profile.ProfileFragment
-import kotlinx.android.synthetic.main.activity_main.navigationView
+import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.toast
 
 class MainActivity : BaseActivity<MainContract.View, MainPresenter>(), MainContract.View {
     override val layoutId: Int = R.layout.activity_main
@@ -16,9 +17,7 @@ class MainActivity : BaseActivity<MainContract.View, MainPresenter>(), MainContr
     private var containers = emptyMap<Int, Pair<ContainerFragment, BaseFragment<*, *>>>()
     private var currentIndex = -1
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
         containers += R.id.navigation_home to ( ContainerFragment() to FeedFragment())
         containers += R.id.navigation_profile to ( ContainerFragment() to ProfileFragment())
 
@@ -30,6 +29,14 @@ class MainActivity : BaseActivity<MainContract.View, MainPresenter>(), MainContr
             navigateToItem(menuItem.itemId)
             return@setOnNavigationItemSelectedListener true
         }
+    }
+
+    override fun onInitSuccess() {
+        super<BaseActivity>.onInitSuccess()
+    }
+
+    override fun onInitError(error: String) {
+        toast(error)
     }
 
     private fun navigateToItem(id: Int) {
