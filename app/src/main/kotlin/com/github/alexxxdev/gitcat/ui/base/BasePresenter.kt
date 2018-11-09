@@ -48,7 +48,7 @@ open class BasePresenter<V : BaseContract.View> : TiPresenter<V>(PRESENTER_CONFI
     fun checkUserInfo() {
         GlobalScope.launch(Dispatchers.Main) {
             async(Dispatchers.Default) {
-                graphQLRepository.getUserInfo("alexxxdev")
+                graphQLRepository.getUserInfo(authRepository.login ?: "")
             }.await().fold({
                 if (it.errors.isEmpty()) {
                     deliverToView { onInitSuccess() }

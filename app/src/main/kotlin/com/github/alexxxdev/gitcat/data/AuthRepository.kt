@@ -24,7 +24,7 @@ const val ARG_ACCOUNT_PARAM2 = "ACCOUNT_PARAM2"
 class AuthRepository(val context: Context, val client: GithubAuthClient) {
 
     private var account: com.github.alexxxdev.gitcat.data.model.common.Account? = null
-    private var login: String? = null
+    var login: String? = null
     private var password: String? = null
     var user: User? = null
 
@@ -51,7 +51,7 @@ class AuthRepository(val context: Context, val client: GithubAuthClient) {
     private fun setToken(result: Triple<Request, Response, Result<AuthorizationResponse, FuelError>>, login: String?) {
         if (result.second.statusCode == CODE_AUTH_SUCCESS) {
             val am = AccountManager.get(context)
-            val account = Account(login, ACCOUNT_TYPE)
+            val account = Account(login?.trim(), ACCOUNT_TYPE)
             am.addAccountExplicitly(account, null, null)
             val token = result.third.get().token
             val hashedToken = result.third.get().hashedToken
@@ -69,6 +69,7 @@ class AuthRepository(val context: Context, val client: GithubAuthClient) {
 
         AccountManager.get(context)?.let { am ->
             am.getAccountsByType(ACCOUNT_TYPE).firstOrNull()?.let { account ->
+                login = account.name.trim()
                 val token = am.peekAuthToken(account, account.type)
                 val hashedToken = am.getUserData(account, ACCOUNT_PARAM1)
                 val id = am.getUserData(account, ACCOUNT_PARAM2)
