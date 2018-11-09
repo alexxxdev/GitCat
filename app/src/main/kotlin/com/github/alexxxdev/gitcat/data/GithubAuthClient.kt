@@ -26,6 +26,8 @@ const val CODE_AUTH_SUCCESS = 201
 
 class GithubAuthClient : KoinComponent {
 
+    private val authRequest = AuthorizationRequest("GitCat", listOf("user:email", "public_repo", "read:org"))
+
     private fun loggerInterceptor() =
             { next: (Request, Response) -> Response ->
                 { req: Request, res: Response ->
@@ -45,7 +47,7 @@ class GithubAuthClient : KoinComponent {
     fun login(login: String, password: String): Triple<Request, Response, Result<AuthorizationResponse, FuelError>> {
         val responseObject = Fuel.post("/authorizations")
                 .authenticate(login, password)
-                .body(JSON.stringify(AuthorizationRequest("GitCat", listOf("user:email", "public_repo"))))
+                .body(JSON.stringify(authRequest))
                 .responseObject(kotlinxDeserializerOf<AuthorizationResponse>(json = JSON.nonstrict))
         Log.v("FuelLogger", responseObject.log())
         return responseObject
@@ -56,7 +58,7 @@ class GithubAuthClient : KoinComponent {
         val responseObject = Fuel.post("/authorizations")
                 .header(HEADER_OTP to code)
                 .authenticate(login ?: "", password ?: "")
-                .body(JSON.stringify(AuthorizationRequest("GitCat", listOf("user:email", "public_repo"))))
+                .body(JSON.stringify(authRequest))
                 .responseObject(kotlinxDeserializerOf<AuthorizationResponse>(json = JSON.nonstrict))
         Log.v("FuelLogger", responseObject.log())
         return responseObject
