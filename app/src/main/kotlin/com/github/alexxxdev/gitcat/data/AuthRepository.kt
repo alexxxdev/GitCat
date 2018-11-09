@@ -4,6 +4,7 @@ import android.accounts.Account
 import android.accounts.AccountManager
 import android.content.Context
 import android.os.Build
+import com.github.alexxxdev.gitcat.data.model.User
 import com.github.alexxxdev.gitcat.data.model.auth.AuthorizationResponse
 import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Request
@@ -25,6 +26,7 @@ class AuthRepository(val context: Context, val client: GithubAuthClient) {
     private var account: com.github.alexxxdev.gitcat.data.model.common.Account? = null
     private var login: String? = null
     private var password: String? = null
+    var user: User? = null
 
     fun login(login: String, password: String): Triple<Request, Response, Result<AuthorizationResponse, FuelError>> {
         this.login = login

@@ -1,6 +1,5 @@
 package com.github.alexxxdev.gitcat.data
 
-import com.github.alexxxdev.gitcat.data.model.User
 import com.github.alexxxdev.gitcat.data.model.common.GraphQLData
 import com.github.alexxxdev.gitcat.data.model.common.UserData
 import com.github.kittinunf.fuel.core.FuelError
@@ -10,7 +9,6 @@ class GraphQLRepository(
     private val authRepository: AuthRepository,
     private val graphQLClient: GithubGraphQLClient
 ) {
-    private var user: User? = null
 
     init {
         graphQLClient.token = authRepository.getToken()
@@ -36,7 +34,7 @@ class GraphQLRepository(
                 "pinnedRepositories(first: 3, orderBy: {field: CREATED_AT, direction: ASC}){totalCount,nodes{id,name,description,nameWithOwner,url,createdAt,parent{id,name,description,nameWithOwner,url,createdAt}}}" +
                 "}" +
                 "}\"}").third
-        user = third.component1()?.data?.user
+        authRepository.user = third.component1()?.data?.user
         return third
     }
 }
