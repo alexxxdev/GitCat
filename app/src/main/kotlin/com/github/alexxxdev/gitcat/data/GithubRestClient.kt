@@ -2,7 +2,7 @@ package com.github.alexxxdev.gitcat.data
 
 import com.github.kittinunf.fuel.core.FuelManager
 
-class GithubRestQLClient {
+class GithubRestClient {
     private var token: String? = null
 
     init {
