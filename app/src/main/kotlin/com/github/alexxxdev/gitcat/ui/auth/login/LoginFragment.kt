@@ -1,32 +1,34 @@
 package com.github.alexxxdev.gitcat.ui.auth.login
 
-import android.graphics.Bitmap
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.view.animation.OvershootInterpolator
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.content.ContextCompat
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import com.github.alexxxdev.gitcat.R
 import com.github.alexxxdev.gitcat.ext.hideKeyboard
-import com.github.alexxxdev.gitcat.ext.vectorDrawableToBitmap
 import com.github.alexxxdev.gitcat.ui.base.BaseFragment
+import com.github.alexxxdev.rotadilavk.Validator
+import com.github.alexxxdev.rotadilavk.androidx.field.Field
+import com.github.alexxxdev.rotadilavk.rule.RequiredRule
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_login.codeED
+import kotlinx.android.synthetic.main.fragment_login.codeInputLayout
 import kotlinx.android.synthetic.main.fragment_login.loginConstrait
 import kotlinx.android.synthetic.main.fragment_login.loginED
+import kotlinx.android.synthetic.main.fragment_login.loginInputLayout
 import kotlinx.android.synthetic.main.fragment_login.passED
+import kotlinx.android.synthetic.main.fragment_login.passInputLayout
 import kotlinx.android.synthetic.main.fragment_login.sendButton
 
 const val ANIM_DURATION_DONE = 200L
 const val ANIM_DURATION_CHANGE_LAYOUT = 300L
 const val ANIM_DURATION_START_CHANGE_LAYOUT = 900L
-const val ANIM_DURATION_REVERT = 500L
+const val ANIM_DURATION_REVERT = 900L
 
 class LoginFragment : BaseFragment<LoginContract.View, LoginPresenter>(), LoginContract.View {
     companion object {
@@ -36,75 +38,77 @@ class LoginFragment : BaseFragment<LoginContract.View, LoginPresenter>(), LoginC
     override val layoutId: Int = R.layout.fragment_login
     override fun providePresenter() = LoginPresenter()
 
-    val color: Int by lazy { ContextCompat.getColor(context!!, R.color.colorAccent) }
-    val decodeResource: Bitmap by lazy { context!!.resources.vectorDrawableToBitmap(context!!, R.drawable.ic_github_face) }
+    val validatorLogin:Validator by lazy {
+        val requiredRule = RequiredRule(getString(R.string.message_field_is_required))
+        Validator(
+                Field(loginInputLayout, requiredRule),
+                Field(passInputLayout, requiredRule)
+        ).enableTrim(true)
+    }
 
-    val doneAnimationRunnable = {
-        sendButton.doneLoadingAnimation(color, decodeResource)
+    val validator2FA:Validator by lazy {
+        val requiredRule = RequiredRule(getString(R.string.message_field_is_required))
+        Validator(
+                Field(codeInputLayout, requiredRule)
+        ).enableTrim(true)
     }
 
     override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
-        sendButton.setOnClickListener { onClickLogin() }
+        sendButton.setMyButtonClickListener { onClickLogin() }
         passED.setOnEditorActionListener(actionListener { onClickLogin() })
         codeED.setOnEditorActionListener(actionListener { onClickSend2FACode() })
     }
 
     override fun onSuccess() {
-        with(Handler()) {
-            postDelayed(doneAnimationRunnable, ANIM_DURATION_DONE)
-            postDelayed({
-                sendButton.revertAnimation()
-                Snackbar.make(sendButton, "Success!", Snackbar.LENGTH_LONG).show()
-            }, ANIM_DURATION_REVERT)
-            postDelayed({ presenter.gotoHome() }, ANIM_DURATION_REVERT)
-        }
+        sendButton.showDoneButton()
+        sendButton.postDelayed({presenter.gotoHome()},700)
     }
 
     override fun onError(message: String) {
-        with(Handler()) {
-            postDelayed(doneAnimationRunnable, ANIM_DURATION_DONE)
-            postDelayed({
-                sendButton.revertAnimation()
-                Log.v("FuelLogger", message)
-                Snackbar.make(sendButton, message, Snackbar.LENGTH_LONG).show()
-            }, ANIM_DURATION_REVERT)
-        }
+        sendButton.showErrorButton()
+        Log.v("FuelLogger", message)
+        Snackbar.make(sendButton, message, Snackbar.LENGTH_LONG).show()
     }
 
     override fun onNeedCode2FA() {
-        sendButton.setOnClickListener {}
-        with(Handler()) {
-            postDelayed(doneAnimationRunnable, ANIM_DURATION_DONE)
-            postDelayed({
-                sendButton.revertAnimation { sendButton.text = "Send code" }
-            }, ANIM_DURATION_REVERT)
-            postDelayed({
-                val constraint1 = ConstraintSet()
-                constraint1.clone(context, R.layout.fragment_login_code)
+        sendButton.setButtonLabel(getString(R.string.btn_login2fa))
+        sendButton.setMyButtonClickListener {}
+        sendButton.showDoneButton()
+        sendButton.postDelayed({sendButton.showNormalButton()},700)
+        sendButton.postDelayed({
+            val constraint1 = ConstraintSet()
+            constraint1.clone(context, R.layout.fragment_login_code)
 
-                val transition = AutoTransition()
-                transition.duration = ANIM_DURATION_CHANGE_LAYOUT
-                transition.interpolator = OvershootInterpolator()
+            val transition = AutoTransition()
+            transition.duration = ANIM_DURATION_CHANGE_LAYOUT
+            transition.interpolator = OvershootInterpolator()
 
-                TransitionManager.beginDelayedTransition(loginConstrait, transition)
-                constraint1.applyTo(loginConstrait)
-                sendButton.setOnClickListener { onClickSend2FACode() }
-            }, ANIM_DURATION_START_CHANGE_LAYOUT)
-        }
+            TransitionManager.beginDelayedTransition(loginConstrait, transition)
+            constraint1.applyTo(loginConstrait)
+            sendButton.setMyButtonClickListener { onClickSend2FACode() }
+        },1000)
     }
 
     private fun onClickLogin() {
-        passED.clearFocus()
-        passED.hideKeyboard()
-        sendButton.startAnimation()
-        presenter.login(loginED.text.toString(), passED.text.toString())
+        if(validatorLogin.validate()) {
+            passED.clearFocus()
+            passED.hideKeyboard()
+            sendButton.showLoadingButton()
+            presenter.login(loginED.text.toString(), passED.text.toString())
+        } else {
+            sendButton.showNormalButton()
+        }
     }
 
     private fun onClickSend2FACode() {
-        codeED.clearFocus()
-        codeED.hideKeyboard()
-        sendButton.startAnimation()
-        presenter.send2FACode(codeED.text.toString())
+        if(validator2FA.validate()) {
+            codeED.clearFocus()
+            codeED.hideKeyboard()
+            sendButton.showLoadingButton()
+            presenter.send2FACode(codeED.text.toString())
+        } else {
+            sendButton.showNormalButton()
+        }
     }
 
     private fun actionListener(function: () -> Unit): TextView.OnEditorActionListener {

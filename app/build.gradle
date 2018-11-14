@@ -63,4 +63,5 @@ dependencies {
     fuel()
     implementation dep.morphbottom
     implementation dep.loadingbutton
+    implementation dep.rotadilavk
 }

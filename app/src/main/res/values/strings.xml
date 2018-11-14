@@ -5,5 +5,8 @@
     <string name="hint_username">Username</string>
     <string name="hint_password">Password</string>
     <string name="btn_login">Login</string>
+    <string name="btn_login2fa">Send code</string>
     <string name="hint_code">Code</string>
+
+    <string name="message_field_is_required">This field is required</string>
 </resources>

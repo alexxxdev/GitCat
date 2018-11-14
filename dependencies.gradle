@@ -52,12 +52,13 @@ ext {
                     core  : "net.grandcentrix.thirtyinch:thirtyinch:$thirtyinchVersion",
                     kotlin: "net.grandcentrix.thirtyinch:thirtyinch-kotlin:$thirtyinchVersion"
             ],
-            loadingbutton: "br.com.simplepass:loading-button-android:1.14.0",
             fuel         : [
                     android      : "com.github.kittinunf.fuel:fuel-android:$fuelVersion", //for Android
                     coroutines   : "com.github.kittinunf.fuel:fuel-coroutines:$fuelVersion", //for Kotlin Coroutines support
                     serialization: "com.github.kittinunf.fuel:fuel-kotlinx-serialization:$fuelVersion" //for Kotlin Coroutines support
-            ]
+            ],
+            rotadilavk:"com.github.alexxxdev.RotadilavK:rotadilavk-androidx:master",
+            loadingbutton: "com.github.yatindeokar:MyLoadingButton:v1.0.1"
     ]
 
     kotlin = Group {

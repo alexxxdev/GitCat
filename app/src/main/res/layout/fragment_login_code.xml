@@ -82,15 +82,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/ic_launcher_round" />
 
-    <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+    <com.example.myloadingbutton.MyLoadingButton
         android:id="@+id/sendButton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/circular_border_shape"
-        android:text="Send code"
+        app:mlb_label="@string/btn_login2fa"
+        app:mlb_backgroundColor="@color/colorAccent"
+        app:mlb_loaderColor="@color/colorPrimary"
+        app:mlb_setErrorIcon="@drawable/ic_close"
+        app:mlb_setDoneIcon="@drawable/ic_check"
+        app:mlb_animationDuration="200"
+        app:mlb_setNormalAfterError="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

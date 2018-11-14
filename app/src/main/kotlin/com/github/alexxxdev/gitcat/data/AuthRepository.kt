@@ -44,7 +44,6 @@ class AuthRepository(val context: Context, val client: GithubAuthClient) {
     }
 
     private fun clear() {
-        login = null
         password = null
     }
 
