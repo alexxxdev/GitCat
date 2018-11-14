@@ -1,9 +1,6 @@
 package com.github.alexxxdev.gitcat.ui.auth.login
 
-import com.github.alexxxdev.gitcat.data.CODE_AUTH_ERROR
-import com.github.alexxxdev.gitcat.data.HEADER_OTP
-import com.github.alexxxdev.gitcat.data.REQUIRED_APP
-import com.github.alexxxdev.gitcat.data.REQUIRED_SMS
+import com.github.alexxxdev.gitcat.data.Need2FAException
 import com.github.alexxxdev.gitcat.ui.base.BasePresenter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -19,18 +16,14 @@ class LoginPresenter : BasePresenter<LoginContract.View>(), LoginContract.Presen
     override fun login(login: String, password: String) {
         GlobalScope.launch(Dispatchers.Main + job) {
             async(Dispatchers.Default + job) { authRepository.login(login, password) }
-                    .await().third
+                    .await()
                     .fold({
                         deliverToView { onSuccess() }
                     }, { error ->
-                        if (error.response.statusCode == CODE_AUTH_ERROR && error.response.headers.containsKey(HEADER_OTP)) {
-                            if (error.response.headers.getValue(HEADER_OTP).find { str -> str == REQUIRED_SMS || str == REQUIRED_APP } != null) {
-                                deliverToView { onNeedCode2FA() }
-                            } else {
-                                deliverToView { onError(error.localizedMessage) }
-                            }
+                        if (error.exception is Need2FAException) {
+                            deliverToView { onNeedCode2FA() }
                         } else {
-                            deliverToView { onError(error.localizedMessage) }
+                            deliverToView { onError(error.message) }
                         }
                     })
         }
@@ -39,11 +32,11 @@ class LoginPresenter : BasePresenter<LoginContract.View>(), LoginContract.Presen
     override fun send2FACode(code: String) {
         GlobalScope.launch(Dispatchers.Main + job) {
             async(Dispatchers.Default + job) { authRepository.send2FACode(code) }
-                    .await().third
+                    .await()
                     .fold({
                         deliverToView { onSuccess() }
-                    }, {
-                        deliverToView { onError(it.localizedMessage) }
+                    }, { error ->
+                        deliverToView { onError(error.message) }
                     })
         }
     }

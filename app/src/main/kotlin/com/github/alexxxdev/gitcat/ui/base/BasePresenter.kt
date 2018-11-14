@@ -49,11 +49,11 @@ open class BasePresenter<V : BaseContract.View> : TiPresenter<V>(PRESENTER_CONFI
         GlobalScope.launch(Dispatchers.Main) {
             async(Dispatchers.Default) {
                 graphQLRepository.getUserInfo(authRepository.login ?: "")
-            }.await().fold({
-                if (it.errors.isEmpty()) {
+            }.await().fold({ data ->
+                if (data.errors.isEmpty()) {
                     deliverToView { onInitSuccess() }
                 } else {
-                    deliverToView { onInitError(it.errors.first().message) }
+                    deliverToView { onInitError(data.errors.first().message) }
                 }
             }, { error ->
                 deliverToView { onInitError(error.exception.localizedMessage) }

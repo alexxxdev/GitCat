@@ -25,10 +25,9 @@ import kotlinx.android.synthetic.main.fragment_login.passED
 import kotlinx.android.synthetic.main.fragment_login.passInputLayout
 import kotlinx.android.synthetic.main.fragment_login.sendButton
 
-const val ANIM_DURATION_DONE = 200L
+const val ANIM_DURATION_CHANGE_STATE = 700L
 const val ANIM_DURATION_CHANGE_LAYOUT = 300L
 const val ANIM_DURATION_START_CHANGE_LAYOUT = 900L
-const val ANIM_DURATION_REVERT = 900L
 
 class LoginFragment : BaseFragment<LoginContract.View, LoginPresenter>(), LoginContract.View {
     companion object {
@@ -38,7 +37,7 @@ class LoginFragment : BaseFragment<LoginContract.View, LoginPresenter>(), LoginC
     override val layoutId: Int = R.layout.fragment_login
     override fun providePresenter() = LoginPresenter()
 
-    val validatorLogin:Validator by lazy {
+    val validatorLogin: Validator by lazy {
         val requiredRule = RequiredRule(getString(R.string.message_field_is_required))
         Validator(
                 Field(loginInputLayout, requiredRule),
@@ -46,7 +45,7 @@ class LoginFragment : BaseFragment<LoginContract.View, LoginPresenter>(), LoginC
         ).enableTrim(true)
     }
 
-    val validator2FA:Validator by lazy {
+    val validator2FA: Validator by lazy {
         val requiredRule = RequiredRule(getString(R.string.message_field_is_required))
         Validator(
                 Field(codeInputLayout, requiredRule)
@@ -61,7 +60,7 @@ class LoginFragment : BaseFragment<LoginContract.View, LoginPresenter>(), LoginC
 
     override fun onSuccess() {
         sendButton.showDoneButton()
-        sendButton.postDelayed({presenter.gotoHome()},700)
+        sendButton.postDelayed({ presenter.gotoHome() }, ANIM_DURATION_CHANGE_STATE)
     }
 
     override fun onError(message: String) {
@@ -74,7 +73,7 @@ class LoginFragment : BaseFragment<LoginContract.View, LoginPresenter>(), LoginC
         sendButton.setButtonLabel(getString(R.string.btn_login2fa))
         sendButton.setMyButtonClickListener {}
         sendButton.showDoneButton()
-        sendButton.postDelayed({sendButton.showNormalButton()},700)
+        sendButton.postDelayed({ sendButton.showNormalButton() }, ANIM_DURATION_CHANGE_STATE)
         sendButton.postDelayed({
             val constraint1 = ConstraintSet()
             constraint1.clone(context, R.layout.fragment_login_code)
@@ -86,11 +85,11 @@ class LoginFragment : BaseFragment<LoginContract.View, LoginPresenter>(), LoginC
             TransitionManager.beginDelayedTransition(loginConstrait, transition)
             constraint1.applyTo(loginConstrait)
             sendButton.setMyButtonClickListener { onClickSend2FACode() }
-        },1000)
+        }, ANIM_DURATION_START_CHANGE_LAYOUT)
     }
 
     private fun onClickLogin() {
-        if(validatorLogin.validate()) {
+        if (validatorLogin.validate()) {
             passED.clearFocus()
             passED.hideKeyboard()
             sendButton.showLoadingButton()
@@ -101,7 +100,7 @@ class LoginFragment : BaseFragment<LoginContract.View, LoginPresenter>(), LoginC
     }
 
     private fun onClickSend2FACode() {
-        if(validator2FA.validate()) {
+        if (validator2FA.validate()) {
             codeED.clearFocus()
             codeED.hideKeyboard()
             sendButton.showLoadingButton()

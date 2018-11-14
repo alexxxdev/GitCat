@@ -62,9 +62,9 @@ class MainActivity : BaseActivity<MainContract.View, MainPresenter>(), MainContr
     }
 
     override fun onBackPressed() {
-        containers[currentIndex]?.let {
-            if (it.first.childFragmentManager.backStackEntryCount>0) {
-                it.first.childFragmentManager.popBackStackImmediate()
+        containers[currentIndex]?.let { pair ->
+            if (pair.first.childFragmentManager.backStackEntryCount>0) {
+                pair.first.childFragmentManager.popBackStackImmediate()
                 return
             }
         }

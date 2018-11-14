@@ -6,10 +6,7 @@ import android.content.Context
 import android.os.Build
 import com.github.alexxxdev.gitcat.data.model.User
 import com.github.alexxxdev.gitcat.data.model.auth.AuthorizationResponse
-import com.github.kittinunf.fuel.core.FuelError
-import com.github.kittinunf.fuel.core.Request
-import com.github.kittinunf.fuel.core.Response
-import com.github.kittinunf.result.Result
+import com.github.alexxxdev.gitcat.data.model.common.Result
 
 const val ACCOUNT_TYPE = "com.github.alexxxdev.gitcat"
 const val ACCOUNT_PARAM1 = "com.github.alexxxdev.gitcat.hashed_token"
@@ -28,18 +25,18 @@ class AuthRepository(val context: Context, val client: GithubAuthClient) {
     private var password: String? = null
     var user: User? = null
 
-    fun login(login: String, password: String): Triple<Request, Response, Result<AuthorizationResponse, FuelError>> {
+    suspend fun login(login: String, password: String): Result<AuthorizationResponse> {
         this.login = login
         this.password = password
 
         val result = client.login(login, password)
-        setToken(result, login)
+        setToken(result.value(), login)
         return result
     }
 
-    fun send2FACode(code: String): Triple<Request, Response, Result<AuthorizationResponse, FuelError>> {
+    suspend fun send2FACode(code: String): Result<AuthorizationResponse> {
         val result = client.send2FACode(login, password, code)
-        setToken(result, login)
+        setToken(result.value(), login)
         return result
     }
 
@@ -47,14 +44,14 @@ class AuthRepository(val context: Context, val client: GithubAuthClient) {
         password = null
     }
 
-    private fun setToken(result: Triple<Request, Response, Result<AuthorizationResponse, FuelError>>, login: String?) {
-        if (result.second.statusCode == CODE_AUTH_SUCCESS) {
+    private fun setToken(result: AuthorizationResponse?, login: String?) {
+        result?.let { response ->
             val am = AccountManager.get(context)
             val account = Account(login?.trim(), ACCOUNT_TYPE)
             am.addAccountExplicitly(account, null, null)
-            val token = result.third.get().token
-            val hashedToken = result.third.get().hashedToken
-            val id = result.third.get().id
+            val token = response.token
+            val hashedToken = response.hashedToken
+            val id = response.id
             am.setAuthToken(account, account.type, token)
             am.setUserData(account, ACCOUNT_PARAM1, hashedToken)
             am.setUserData(account, ACCOUNT_PARAM2, id.toString())
