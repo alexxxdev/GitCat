@@ -8,11 +8,18 @@
         <item name="android:statusBarColor">@color/transparent</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="android:windowBackground">@drawable/background_splash</item>
-        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:textColor">@color/c0A0E27</item>
+        <item name="android:textColorPrimary">@color/c0A0E27</item>
+        <item name="android:textColorSecondary">@color/colorAccent</item>
+        <item name="android:textColorTertiary">@color/lightGreenA700</item>
+        <item name="android:textColorLink">@color/c0A0E27</item>
     </style>
 
     <style name="AuthTheme" parent="AppTheme">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
     </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar"/>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light"/>
 </resources>

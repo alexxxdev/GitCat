@@ -23,6 +23,7 @@ const val REQUIRED_SMS = "required; sms"
 const val REQUIRED_APP = "required; app"
 const val CODE_AUTH_ERROR = 401
 const val CODE_AUTH_SUCCESS = 201
+const val CODE_SUCCESS = 200
 
 class Need2FAException(message: String) : Exception(message)
 

@@ -1,9 +1,8 @@
 package com.github.alexxxdev.gitcat.data
 
 import com.github.alexxxdev.gitcat.data.model.common.GraphQLData
+import com.github.alexxxdev.gitcat.data.model.common.Result
 import com.github.alexxxdev.gitcat.data.model.common.UserData
-import com.github.kittinunf.fuel.core.FuelError
-import com.github.kittinunf.result.Result
 
 class GraphQLRepository(
     private val authRepository: AuthRepository,
@@ -14,9 +13,9 @@ class GraphQLRepository(
         graphQLClient.token = authRepository.getToken()
     }
 
-    fun getUserInfo(login: String): Result<GraphQLData<UserData>, FuelError> {
-        val third = graphQLClient.getUserInfo("{\"query\": \"query {" +
-                "user(login: \\\"$login\\\") {" +
+    fun getUserInfo(login: String): Result<GraphQLData<UserData>> {
+        val result = graphQLClient.getUserInfo("{\"query\": \"query {" +
+                "user(login: \\\"${login}\\\") {" +
                 "id,login,name,avatarUrl,bio,company,email,location,resourcePath,url,updatedAt,websiteUrl," +
                 "commitComments{totalCount}," +
                 "followers(first: 3){totalCount,nodes{login,name,avatarUrl}}," +
@@ -33,8 +32,8 @@ class GraphQLRepository(
                 "organizations(first: 100){totalCount,nodes{id,login,name,avatarUrl,email,location,url}}," +
                 "pinnedRepositories(first: 3, orderBy: {field: CREATED_AT, direction: ASC}){totalCount,nodes{id,name,description,nameWithOwner,url,createdAt,parent{id,name,description,nameWithOwner,url,createdAt}}}," +
                 "}" +
-                "}\"}").third
-        authRepository.user = third.component1()?.data?.user
-        return third
+                "}\"}")
+        authRepository.user = result.value()?.data?.user
+        return result
     }
 }

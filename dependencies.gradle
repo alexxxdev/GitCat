@@ -58,7 +58,8 @@ ext {
                     serialization: "com.github.kittinunf.fuel:fuel-kotlinx-serialization:$fuelVersion" //for Kotlin Coroutines support
             ],
             rotadilavk:"com.github.alexxxdev.RotadilavK:rotadilavk-androidx:master",
-            loadingbutton: "com.github.yatindeokar:MyLoadingButton:v1.0.1"
+            loadingbutton: "com.github.yatindeokar:MyLoadingButton:v1.0.1",
+            avvylib: "xyz.schwaab:avvylib:0.0.1"
     ]
 
     kotlin = Group {

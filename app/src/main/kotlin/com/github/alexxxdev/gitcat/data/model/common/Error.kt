@@ -1,5 +1,6 @@
 package com.github.alexxxdev.gitcat.data.model.common
 
+import com.github.alexxxdev.gitcat.common.GraphQLException
 import com.github.kittinunf.fuel.core.FuelError
 import kotlinx.serialization.ImplicitReflectionSerializer
 import kotlinx.serialization.SerialName
@@ -26,6 +27,11 @@ class Error(val exception: Exception = Exception("Unknown error"), val code: Int
                 val error = JSON.nonstrict.parse<Data>(string)
                 return Error(exception, code, error.message)
             }
+            return Error(exception, code)
+        }
+
+        fun of(code: Int, errors: List<GraphQLError>?): Error {
+            val exception = GraphQLException(errors)
             return Error(exception, code)
         }
     }

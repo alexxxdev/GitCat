@@ -7,7 +7,7 @@ import com.github.alexxxdev.gitcat.ui.base.BaseActivity
 import com.github.alexxxdev.gitcat.ui.base.BaseFragment
 import com.github.alexxxdev.gitcat.ui.main.feed.FeedFragment
 import com.github.alexxxdev.gitcat.ui.main.profile.ProfileFragment
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.navigationView
 import org.jetbrains.anko.toast
 
 class MainActivity : BaseActivity<MainContract.View, MainPresenter>(), MainContract.View {
@@ -18,6 +18,8 @@ class MainActivity : BaseActivity<MainContract.View, MainPresenter>(), MainContr
     private var currentIndex = -1
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
+        window.setBackgroundDrawableResource(R.drawable.background_main)
+
         containers += R.id.navigation_home to ( ContainerFragment() to FeedFragment())
         containers += R.id.navigation_profile to ( ContainerFragment() to ProfileFragment())
 
@@ -44,7 +46,7 @@ class MainActivity : BaseActivity<MainContract.View, MainPresenter>(), MainContr
 
         containers[id]?.let { pair ->
             supportFragmentManager.inTransaction {
-                // setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                 if (pair.first.isAdded || pair.first.isDetached) {
                     attach(pair.first)
                 } else {

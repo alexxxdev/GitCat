@@ -4,4 +4,4 @@ import com.github.alexxxdev.gitcat.data.model.User
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class UserData(val user: User)
+data class UserData(val user: User?)

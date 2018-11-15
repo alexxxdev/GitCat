@@ -64,4 +64,5 @@ dependencies {
     implementation dep.morphbottom
     implementation dep.loadingbutton
     implementation dep.rotadilavk
+    implementation dep.avvylib
 }
