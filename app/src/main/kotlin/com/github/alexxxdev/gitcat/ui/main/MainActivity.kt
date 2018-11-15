@@ -1,6 +1,9 @@
 package com.github.alexxxdev.gitcat.ui.main
 
+import android.graphics.Color
 import android.os.Bundle
+import android.view.View
+import android.view.WindowManager
 import com.github.alexxxdev.gitcat.R
 import com.github.alexxxdev.gitcat.ext.inTransaction
 import com.github.alexxxdev.gitcat.ui.base.BaseActivity
@@ -9,6 +12,14 @@ import com.github.alexxxdev.gitcat.ui.main.feed.FeedFragment
 import com.github.alexxxdev.gitcat.ui.main.profile.ProfileFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.toast
+import android.view.View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+import android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+import android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+import android.os.Build
+
+
+
+
 
 class MainActivity : BaseActivity<MainContract.View, MainPresenter>(), MainContract.View {
     override val layoutId: Int = R.layout.activity_main
@@ -18,6 +29,8 @@ class MainActivity : BaseActivity<MainContract.View, MainPresenter>(), MainContr
     private var currentIndex = -1
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
+        window.setBackgroundDrawableResource(R.drawable.background_main)
+
         containers += R.id.navigation_home to ( ContainerFragment() to FeedFragment())
         containers += R.id.navigation_profile to ( ContainerFragment() to ProfileFragment())
 
@@ -44,7 +57,7 @@ class MainActivity : BaseActivity<MainContract.View, MainPresenter>(), MainContr
 
         containers[id]?.let { pair ->
             supportFragmentManager.inTransaction {
-                // setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                 if (pair.first.isAdded || pair.first.isDetached) {
                     attach(pair.first)
                 } else {

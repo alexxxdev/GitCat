@@ -16,6 +16,7 @@ data class User(
     val resourcePath: String,
     val url: String,
     val updatedAt: String,
+    val websiteUrl: String,
     val commitComments: GraphQLNode<Any>,
     val followers: GraphQLNode<UserSmall>,
     val following: GraphQLNode<UserSmall>,

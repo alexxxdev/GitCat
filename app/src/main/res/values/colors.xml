@@ -6,4 +6,6 @@
 
     <color name="transparent">#00000000</color>
     <color name="white">#FFF</color>
+    <color name="avatar_filter">#66008577</color>
+    <color name="divider">#2200574B</color>
 </resources>

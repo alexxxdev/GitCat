@@ -63,4 +63,5 @@ dependencies {
     fuel()
     implementation dep.morphbottom
     implementation dep.loadingbutton
+    implementation "xyz.schwaab:avvylib:0.0.1"
 }
