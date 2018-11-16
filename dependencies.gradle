@@ -59,7 +59,9 @@ ext {
             ],
             rotadilavk:"com.github.alexxxdev.RotadilavK:rotadilavk-androidx:master",
             loadingbutton: "com.github.yatindeokar:MyLoadingButton:v1.0.1",
-            avvylib: "xyz.schwaab:avvylib:0.0.1"
+            avvylib: "xyz.schwaab:avvylib:0.0.1",
+            backdrop: "ru.semper-viventem.backdrop:backdrop:0.1.5_x",
+            inboxrecyclerview: "me.saket:inboxrecyclerview:1.0.0-rc1"
     ]
 
     kotlin = Group {

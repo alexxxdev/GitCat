@@ -65,4 +65,6 @@ dependencies {
     implementation dep.loadingbutton
     implementation dep.rotadilavk
     implementation dep.avvylib
+    implementation dep.backdrop
+    implementation dep.inboxrecyclerview
 }
