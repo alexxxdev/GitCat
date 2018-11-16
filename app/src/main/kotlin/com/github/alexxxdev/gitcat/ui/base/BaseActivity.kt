@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.annotation.CallSuper
+import com.github.alexxxdev.gitcat.R
 import com.github.alexxxdev.gitcat.ui.Navigator
 import net.grandcentrix.thirtyinch.TiActivity
 import org.koin.android.ext.android.inject
@@ -71,7 +72,7 @@ abstract class BaseActivity<V : BaseContract.View, P : BasePresenter<V>> : TiAct
         window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
         setWindowFlag(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false)
         window.statusBarColor = Color.TRANSPARENT
-        window.navigationBarColor = Color.BLACK
+        window.navigationBarColor = resources.getColor(R.color.colorPrimaryDark)
     }
 
     private fun setWindowFlag(bits: Int, on: Boolean) {
