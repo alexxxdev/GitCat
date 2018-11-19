@@ -4,9 +4,9 @@ import android.accounts.Account
 import android.accounts.AccountManager
 import android.content.Context
 import android.os.Build
-import com.github.alexxxdev.gitcat.data.model.User
 import com.github.alexxxdev.gitcat.data.model.auth.AuthorizationResponse
 import com.github.alexxxdev.gitcat.data.model.common.Result
+import com.github.alexxxdev.gitcat.data.model.graphql.User
 
 const val ACCOUNT_TYPE = "com.github.alexxxdev.gitcat"
 const val ACCOUNT_PARAM1 = "com.github.alexxxdev.gitcat.hashed_token"

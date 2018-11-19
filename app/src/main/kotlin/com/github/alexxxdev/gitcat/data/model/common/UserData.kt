@@ -1,6 +1,6 @@
 package com.github.alexxxdev.gitcat.data.model.common
 
-import com.github.alexxxdev.gitcat.data.model.User
+import com.github.alexxxdev.gitcat.data.model.graphql.User
 import kotlinx.serialization.Serializable
 
 @Serializable

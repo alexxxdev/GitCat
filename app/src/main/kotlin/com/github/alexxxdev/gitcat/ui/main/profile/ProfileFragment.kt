@@ -9,7 +9,7 @@ import com.github.alexxxdev.gitcat.common.BlurTransformation
 import com.github.alexxxdev.gitcat.common.ColorFilterTransformation
 import com.github.alexxxdev.gitcat.common.GlideApp
 import com.github.alexxxdev.gitcat.common.defaultOptions
-import com.github.alexxxdev.gitcat.data.model.User
+import com.github.alexxxdev.gitcat.data.model.graphql.User
 import com.github.alexxxdev.gitcat.ui.base.BaseFragment
 import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.fragment_profile.appbarLayout

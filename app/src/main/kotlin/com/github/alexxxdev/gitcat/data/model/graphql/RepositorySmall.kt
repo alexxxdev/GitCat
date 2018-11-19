@@ -1,4 +1,4 @@
-package com.github.alexxxdev.gitcat.data.model
+package com.github.alexxxdev.gitcat.data.model.graphql
 
 import kotlinx.serialization.Optional
 import kotlinx.serialization.Serializable
