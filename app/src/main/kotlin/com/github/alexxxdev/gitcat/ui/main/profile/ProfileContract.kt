@@ -1,6 +1,6 @@
 package com.github.alexxxdev.gitcat.ui.main.profile
 
-import com.github.alexxxdev.gitcat.data.model.User
+import com.github.alexxxdev.gitcat.data.model.graphql.User
 import com.github.alexxxdev.gitcat.ui.base.BaseContract
 
 interface ProfileContract : BaseContract {
