@@ -5,6 +5,9 @@ import kotlinx.serialization.Optional
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+const val PAGE_SIZE = 30
+const val PAGE_COUNT = 10
+
 @Serializable
 data class Event(
     val id: String,

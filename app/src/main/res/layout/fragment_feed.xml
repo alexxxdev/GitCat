@@ -62,15 +62,22 @@
             android:textColor="?android:attr/textColorSecondary"
             app:fontFamily="@font/roboto_condensed_regular"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
-        <androidx.recyclerview.widget.RecyclerView
+        <com.github.alexxxdev.gitcat.common.widget.recyclerview.ExtendedRecyclerView
             android:id="@+id/recyclerView"
             android:paddingTop="28dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="true"/>
-        <me.saket.inboxrecyclerview.page.ExpandablePageLayout
-            android:id="@+id/recyclerViewPage"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:id="@+id/feedEmptyView"
+            android:visibility="gone">
+            <ImageView
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/ic_launcher"/>
+        </FrameLayout>
     </FrameLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

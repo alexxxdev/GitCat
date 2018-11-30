@@ -46,7 +46,7 @@ class MainActivity : BaseActivity<MainContract.View, MainPresenter>(), MainContr
 
         containers[id]?.let { pair ->
             supportFragmentManager.inTransaction {
-                setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                // setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                 if (pair.first.isAdded || pair.first.isDetached) {
                     attach(pair.first)
                 } else {

@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:background="?attr/selectableItemBackground">
 
     <View
         android:layout_width="1dp"
@@ -23,73 +25,50 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="34dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="4dp"
+    <ImageView
+        android:id="@+id/avatarView"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="38dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="0.0" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:background="?attr/selectableItemBackground">
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/nameTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="18dp"
+        android:lines="1"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:textColor="@color/colorPrimaryLight"
+        app:fontFamily="@font/open_sans_semibold"
+        app:layout_constraintEnd_toStartOf="@+id/actionTV"
+        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toEndOf="@+id/avatarView"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="alexxxdev" />
 
-            <xyz.schwaab.avvylib.AvatarView
-                android:id="@+id/avatarView"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                app:avvy_border_highlight_color="@color/colorAccent"
-                app:avvy_border_thickness="0dp"
-                app:avvy_border_thickness_highlight="1dp"
-                app:avvy_distance_to_border="0dp"
-                app:avvy_highlighted="true"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/nameTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="14dp"
-                android:lines="1"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                android:textColor="@color/colorPrimaryLight"
-                app:fontFamily="@font/open_sans_semibold"
-                app:layout_constraintEnd_toStartOf="@+id/actionTV"
-                app:layout_constraintHorizontal_bias="0.51"
-                app:layout_constraintHorizontal_chainStyle="spread"
-                app:layout_constraintStart_toEndOf="@+id/avatarView"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="alexxxdev" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/actionTV"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:lines="1"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-                android:textColor="?android:attr/textColorTertiary"
-                app:fontFamily="@font/roboto_condensed_regular"
-                app:layout_constraintBaseline_toBaselineOf="@+id/nameTV"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/nameTV"
-                tools:text="starred" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/actionTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="8dp"
+        android:lines="1"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+        android:textColor="?android:attr/textColorTertiary"
+        app:fontFamily="@font/roboto_condensed_regular"
+        app:layout_constraintBaseline_toBaselineOf="@+id/nameTV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/nameTV"
+        tools:text="starred" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/optionTV"
@@ -106,20 +85,17 @@
                 app:layout_constraintTop_toBottomOf="@+id/nameTV"
                 tools:text="alexxxdev/GitCat" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/dateTV"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-                android:textColor="?android:attr/textColorSecondary"
-                app:fontFamily="@font/roboto_condensed_regular"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </com.google.android.material.card.MaterialCardView>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/dateTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="8dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+        android:textColor="?android:attr/textColorSecondary"
+        app:fontFamily="@font/roboto_condensed_regular"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="1234567890" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

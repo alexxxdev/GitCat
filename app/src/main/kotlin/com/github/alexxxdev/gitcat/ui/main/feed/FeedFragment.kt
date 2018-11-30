@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.updateMargins
+import androidx.paging.PagedList
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.alexxxdev.gitcat.R
 import com.github.alexxxdev.gitcat.common.widget.AvatarWithNameView
+import com.github.alexxxdev.gitcat.common.widget.recyclerview.State
 import com.github.alexxxdev.gitcat.data.model.graphql.OrganizationSmall
 import com.github.alexxxdev.gitcat.data.model.graphql.User
 import com.github.alexxxdev.gitcat.data.model.rest.Event
@@ -15,6 +18,7 @@ import com.github.alexxxdev.gitcat.ui.base.BaseFragment
 import com.github.alexxxdev.gitcat.ui.main.feed.common.FeedAdapter
 import kotlinx.android.synthetic.main.fragment_feed.avatarInToolbar
 import kotlinx.android.synthetic.main.fragment_feed.avatarViewContainer
+import kotlinx.android.synthetic.main.fragment_feed.feedEmptyView
 import kotlinx.android.synthetic.main.fragment_feed.foregroundContainer
 import kotlinx.android.synthetic.main.fragment_feed.recyclerView
 import kotlinx.android.synthetic.main.fragment_feed.toolbar
@@ -49,6 +53,8 @@ class FeedFragment : BaseFragment<FeedContract.View, FeedPresenter>(), FeedContr
 
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
+            itemAnimator = DefaultItemAnimator()
+            emptyView = feedEmptyView
             adapter = feedAdapter
         }
     }
@@ -74,8 +80,12 @@ class FeedFragment : BaseFragment<FeedContract.View, FeedPresenter>(), FeedContr
         }
     }
 
-    override fun setFeed(list: List<Event>) {
+    override fun setFeed(list: PagedList<Event>) {
         feedAdapter.submitList(list)
+    }
+
+    override fun setState(state: State) {
+        feedAdapter.state = state
     }
 
     override fun onError(message: String) {

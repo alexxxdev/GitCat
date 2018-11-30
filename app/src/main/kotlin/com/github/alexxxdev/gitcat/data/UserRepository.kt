@@ -12,7 +12,7 @@ class UserRepository(
         client.token = authRepository.getToken()
     }
 
-    suspend fun getUserEvent(username: String): Result<List<Event>> {
-        return client.getUserEvent(username)
+    /*suspend*/ fun getUserEvent(username: String, page: Int = 1): Result<List<Event>> {
+        return client.getUserEvent(username, page)
     }
 }

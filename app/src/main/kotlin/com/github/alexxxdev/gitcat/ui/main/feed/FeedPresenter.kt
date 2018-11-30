@@ -1,38 +1,46 @@
 package com.github.alexxxdev.gitcat.ui.main.feed
 
-import com.github.alexxxdev.gitcat.data.UserRepository
+import androidx.paging.PagedList
+import com.github.alexxxdev.gitcat.common.MainThreadExecutor
+import com.github.alexxxdev.gitcat.data.FeedDataSource
 import com.github.alexxxdev.gitcat.data.model.graphql.OrganizationSmall
 import com.github.alexxxdev.gitcat.data.model.graphql.User
+import com.github.alexxxdev.gitcat.data.model.rest.Event
+import com.github.alexxxdev.gitcat.data.model.rest.PAGE_SIZE
 import com.github.alexxxdev.gitcat.ui.base.BasePresenter
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import java.util.concurrent.Executors
 import net.grandcentrix.thirtyinch.kotlin.deliverToView
-import org.koin.standalone.inject
 
 class FeedPresenter : BasePresenter<FeedContract.View>(), FeedContract.Presenter {
 
-    val job = Job()
+    private var pagedList: PagedList<Event>
 
-    protected val userRepository by inject<UserRepository>()
+    init {
+        val config = PagedList.Config.Builder()
+                .setEnablePlaceholders(false)
+                .setPageSize(PAGE_SIZE)
+                .setInitialLoadSizeHint(PAGE_SIZE)
+                .setPrefetchDistance(PAGE_SIZE)
+                .build()
+
+        val dataSource = FeedDataSource {
+            deliverToView { setState(it) }
+        }
+
+        pagedList = PagedList.Builder(dataSource, config)
+                .setFetchExecutor(Executors.newSingleThreadExecutor())
+                .setNotifyExecutor(MainThreadExecutor())
+                .build()
+    }
 
     override fun attachView(view: FeedContract.View) {
         super.attachView(view)
+
         authRepository.user?.let { user ->
-
-            GlobalScope.launch(Dispatchers.Main + job) {
-                async(Dispatchers.Default + job) { userRepository.getUserEvent(user.login) }
-                        .await()
-                        .fold({
-                            deliverToView { setFeed(it) }
-                        }, { error ->
-                            deliverToView { onError(error.message) }
-                        })
+            deliverToView {
+                setData(user)
+                setFeed(pagedList)
             }
-
-            deliverToView { setData(user) }
         }
     }
 
@@ -40,10 +48,5 @@ class FeedPresenter : BasePresenter<FeedContract.View>(), FeedContract.Presenter
     }
 
     override fun onSelectOrganisation(org: OrganizationSmall) {
-    }
-
-    override fun onDestroy() {
-        job.cancel()
-        super.onDestroy()
     }
 }

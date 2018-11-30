@@ -67,4 +67,5 @@ dependencies {
     implementation dep.avvylib
     implementation dep.backdrop
     implementation dep.inboxrecyclerview
+    implementation dep.paging
 }

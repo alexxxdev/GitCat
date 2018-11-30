@@ -23,5 +23,5 @@ class DefaultGlideModule : AppGlideModule() {
 }
 
 val defaultOptions = RequestOptions()
-        .diskCacheStrategy(DiskCacheStrategy.ALL)
+        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
         .priority(Priority.HIGH)

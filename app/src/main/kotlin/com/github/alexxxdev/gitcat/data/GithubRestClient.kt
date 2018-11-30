@@ -18,8 +18,8 @@ class GithubRestClient {
         FuelManager.instance.baseHeaders = mapOf("Content-Type" to "application/json")
     }
 
-    fun getUserEvent(username: String): Result<List<Event>> {
-        val responseObject = Fuel.get("/users/$username/received_events?page=1")
+    fun getUserEvent(username: String, page: Int): Result<List<Event>> {
+        val responseObject = Fuel.get("/users/$username/received_events?page=$page")
                 .header("Authorization" to "bearer $token")
                 .responseObject(kotlinxDeserializerOf<List<Event>>(Event.serializer().list, json = JSON.nonstrict))
 
