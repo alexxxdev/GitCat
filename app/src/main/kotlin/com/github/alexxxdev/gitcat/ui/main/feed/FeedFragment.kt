@@ -1,37 +1,26 @@
 package com.github.alexxxdev.gitcat.ui.main.feed
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
+import androidx.core.view.updateMargins
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.alexxxdev.gitcat.R
-import com.github.alexxxdev.gitcat.common.GlideApp
-import com.github.alexxxdev.gitcat.common.defaultOptions
-import com.github.alexxxdev.gitcat.data.model.User
+import com.github.alexxxdev.gitcat.common.widget.AvatarWithNameView
+import com.github.alexxxdev.gitcat.data.model.graphql.OrganizationSmall
+import com.github.alexxxdev.gitcat.data.model.graphql.User
+import com.github.alexxxdev.gitcat.data.model.rest.Event
 import com.github.alexxxdev.gitcat.ext.findBehavior
 import com.github.alexxxdev.gitcat.ui.base.BaseFragment
-import kotlinx.android.synthetic.main.fragment_feed.avatar1
-import kotlinx.android.synthetic.main.fragment_feed.avatar2
-import kotlinx.android.synthetic.main.fragment_feed.avatar3
-import kotlinx.android.synthetic.main.fragment_feed.avatar4
-import kotlinx.android.synthetic.main.fragment_feed.avatar5
-import kotlinx.android.synthetic.main.fragment_feed.avatar6
-import kotlinx.android.synthetic.main.fragment_feed.conm
+import com.github.alexxxdev.gitcat.ui.main.feed.common.FeedAdapter
+import kotlinx.android.synthetic.main.fragment_feed.avatarInToolbar
+import kotlinx.android.synthetic.main.fragment_feed.avatarViewContainer
 import kotlinx.android.synthetic.main.fragment_feed.foregroundContainer
-import kotlinx.android.synthetic.main.fragment_feed.name1
-import kotlinx.android.synthetic.main.fragment_feed.name2
-import kotlinx.android.synthetic.main.fragment_feed.name3
-import kotlinx.android.synthetic.main.fragment_feed.name4
-import kotlinx.android.synthetic.main.fragment_feed.name5
-import kotlinx.android.synthetic.main.fragment_feed.name6
 import kotlinx.android.synthetic.main.fragment_feed.recyclerView
-import kotlinx.android.synthetic.main.fragment_feed.recyclerViewPage
 import kotlinx.android.synthetic.main.fragment_feed.toolbar
-import kotlinx.android.synthetic.main.fragment_feed.toolbar_avatar
-import kotlinx.android.synthetic.main.fragment_feed.toolbar_title
-import kotlinx.android.synthetic.main.fragment_profile.avatarImage
-import me.saket.inboxrecyclerview.dimming.TintPainter
-import org.jetbrains.anko.sdk27.coroutines.onClick
+import kotlinx.android.synthetic.main.fragment_feed.userAvatarView
+import org.jetbrains.anko.backgroundResource
+import org.jetbrains.anko.support.v4.toast
 import ru.semper_viventem.backdrop.BackdropBehavior
 
 class FeedFragment : BaseFragment<FeedContract.View, FeedPresenter>(), FeedContract.View {
@@ -40,18 +29,19 @@ class FeedFragment : BaseFragment<FeedContract.View, FeedPresenter>(), FeedContr
 
     private lateinit var backdropBehavior: BackdropBehavior
 
+    private val feedAdapter = FeedAdapter()
+
     override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
         backdropBehavior = foregroundContainer.findBehavior()
 
         backdropBehavior.apply {
-            attachBackContainer(R.id.backContainer)
+            attachBackContainer(R.id.backScrollContainer)
             attachToolbar(R.id.toolbar)
             setClosedIcon(R.drawable.ic_drop_open)
             setOpenedIcon(R.drawable.ic_drop_close)
             // add listener
             addOnDropListener(object : BackdropBehavior.OnDropListener {
                 override fun onDrop(dropState: BackdropBehavior.DropState, fromUser: Boolean) {
-                    // TODO: handle listener
                 }
             })
         }
@@ -59,64 +49,50 @@ class FeedFragment : BaseFragment<FeedContract.View, FeedPresenter>(), FeedContr
 
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
-            setExpandablePage(recyclerViewPage)
-            tintPainter = TintPainter.uncoveredArea(color = Color.WHITE, opacity = 0.65F)
+            adapter = feedAdapter
         }
     }
 
     override fun setData(user: User) {
         context?.let { context ->
-            GlideApp.with(context)
-                    .load(user.avatarUrl)
-                    .apply(defaultOptions)
-                    .into(toolbar_avatar)
+            avatarInToolbar.name = user.name
+            avatarInToolbar.avatarUrl = user.avatarUrl
 
-            GlideApp.with(context)
-                    .load(user.avatarUrl)
-                    .apply(defaultOptions)
-                    .into(avatar1)
+            userAvatarView.name = user.name
+            userAvatarView.avatarUrl = user.avatarUrl
+            userAvatarView.setOnClickListener { selectUser(user) }
 
-            GlideApp.with(context)
-                    .load(user.organizations.nodes[0].avatarUrl)
-                    .apply(defaultOptions)
-                    .into(avatar2)
-
-            GlideApp.with(context)
-                    .load(user.organizations.nodes[1].avatarUrl)
-                    .apply(defaultOptions)
-                    .into(avatar3)
-
-            GlideApp.with(context)
-                    .load(user.organizations.nodes[2].avatarUrl)
-                    .apply(defaultOptions)
-                    .into(avatar4)
-
-            GlideApp.with(context)
-                    .load(user.organizations.nodes[3].avatarUrl)
-                    .apply(defaultOptions)
-                    .into(avatar5)
-
-            GlideApp.with(context)
-                    .load(user.organizations.nodes[4].avatarUrl)
-                    .apply(defaultOptions)
-                    .into(avatar6)
+            user.organizations.nodes.sortedBy { it.name }.forEach { org ->
+                val avatarWithNameView = AvatarWithNameView(context)
+                avatarWithNameView.name = org.name
+                avatarWithNameView.avatarUrl = org.avatarUrl
+                avatarWithNameView.backgroundResource = R.drawable.background
+                avatarViewContainer.addView(avatarWithNameView)
+                (avatarWithNameView.layoutParams as ViewGroup.MarginLayoutParams).updateMargins(top = context.resources.getDimensionPixelOffset(R.dimen.avatar_with_name_top_margin))
+                avatarWithNameView.setOnClickListener { selectOrganisation(org) }
+            }
         }
+    }
 
-        toolbar_title.text = user.name
-        name1.text = user.name
-        name2.text = user.organizations.nodes[0].name
-        name3.text = user.organizations.nodes[1].name
-        name4.text = user.organizations.nodes[2].name
-        name5.text = user.organizations.nodes[3].name
-        name6.text = user.organizations.nodes[4].name
+    override fun setFeed(list: List<Event>) {
+        feedAdapter.submitList(list)
+    }
 
-        conm.setOnClickListener {
-            toolbar_title.text = user.organizations.nodes[0].name
-            context?.let { context -> GlideApp.with(context)
-                    .load(user.organizations.nodes[0].avatarUrl)
-                    .apply(defaultOptions)
-                    .into(toolbar_avatar) }
-            backdropBehavior.close(true)
-        }
+    override fun onError(message: String) {
+        toast(message)
+    }
+
+    private fun selectOrganisation(org: OrganizationSmall) {
+        avatarInToolbar.name = org.name
+        avatarInToolbar.avatarUrl = org.avatarUrl
+        backdropBehavior.close(true)
+        presenter.onSelectOrganisation(org)
+    }
+
+    private fun selectUser(user: User) {
+        avatarInToolbar.name = user.name
+        avatarInToolbar.avatarUrl = user.avatarUrl
+        backdropBehavior.close(true)
+        presenter.onSelectUser(user)
     }
 }

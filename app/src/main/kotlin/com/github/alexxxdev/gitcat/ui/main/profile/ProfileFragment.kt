@@ -28,13 +28,15 @@ import kotlinx.android.synthetic.main.fragment_profile.repositoriesTextView
 import kotlinx.android.synthetic.main.fragment_profile.starsTextView
 import kotlinx.android.synthetic.main.fragment_profile.websiteTextView
 
+private const val SCALE_FACTOR = 2.4f
+
 class ProfileFragment : BaseFragment<ProfileContract.View, ProfilePresenter>(), ProfileContract.View {
     override val layoutId: Int = R.layout.fragment_profile
     override fun providePresenter() = ProfilePresenter()
 
     override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
         appbarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
-            val minHeight = ViewCompat.getMinimumHeight(collapsingLayout) * 2.4f
+            val minHeight = ViewCompat.getMinimumHeight(collapsingLayout) * SCALE_FACTOR
             val scale = (minHeight + verticalOffset) / minHeight
             avatarImage.scaleX = if (scale >= 0) scale else 0f
             avatarImage.scaleY = if (scale >= 0) scale else 0f

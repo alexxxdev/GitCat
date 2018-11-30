@@ -11,7 +11,7 @@
         <item name="android:textColor">@color/c0A0E27</item>
         <item name="android:textColorPrimary">@color/c0A0E27</item>
         <item name="android:textColorSecondary">@color/colorAccent</item>
-        <item name="android:textColorTertiary">@color/lightGreenA700</item>
+        <item name="android:textColorTertiary">@color/grey_40</item>
         <item name="android:textColorLink">@color/c0A0E27</item>
     </style>
 

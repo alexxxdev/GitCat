@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <xyz.schwaab.avvylib.AvatarView
+        android:id="@+id/avatarView"
+        app:avvy_border_highlight_color="@color/colorAccent"
+        app:avvy_border_thickness="0dp"
+        app:avvy_border_thickness_highlight="1dp"
+        app:avvy_distance_to_border="0dp"
+        app:avvy_highlighted="true"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_margin="8dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/ic_github_face" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/nameTextView"
+        app:fontFamily="@font/open_sans_semibold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:singleLine="true"
+        android:layout_gravity="center_vertical"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+        android:textColor="@color/colorAccent" />
+</merge>

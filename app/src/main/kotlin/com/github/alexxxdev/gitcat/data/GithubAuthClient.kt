@@ -87,7 +87,7 @@ inline fun <reified T : Any> Triple<Request, Response, com.github.kittinunf.resu
     var data: String = "(empty)"
     if (BuildConfig.DEBUG) {
         this.third.component2()?.errorData?.let { String(it) }?.let { data = JSON.indented.stringify(JSON.nonstrict.parse<Error>(it)) }
-        this.third.component1()?.let { data = JSON.indented.stringify<T>(it) }
+        // this.third.component1()?.let { data = JSON.indented.stringify<T>(it) }
         return "--> ${this.first.httpString()}\n\n<-- ${this.second.statusCode} ${this.second.url}\n${this.second.responseMessage}\n$data"
     } else return ""
 }
