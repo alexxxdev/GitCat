@@ -15,4 +15,7 @@
     <color name="divider">#2200574B</color>
 
     <color name="c0A0E27">#0A0E27</color>
+    <color name="grey_40">#999999</color>
+
+    <color name="colorAccentRipple">#8800bfa5</color>
 </resources>
