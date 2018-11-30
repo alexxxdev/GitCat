@@ -61,9 +61,9 @@ dependencies {
     glide()
     thirtyinch()
     fuel()
+    rotadilavk()
     implementation dep.morphbottom
     implementation dep.loadingbutton
-    implementation dep.rotadilavk
     implementation dep.avvylib
     implementation dep.backdrop
     implementation dep.inboxrecyclerview

@@ -57,7 +57,10 @@ ext {
                     coroutines   : "com.github.kittinunf.fuel:fuel-coroutines:$fuelVersion", //for Kotlin Coroutines support
                     serialization: "com.github.kittinunf.fuel:fuel-kotlinx-serialization:$fuelVersion" //for Kotlin Coroutines support
             ],
-            rotadilavk:"com.github.alexxxdev.RotadilavK:rotadilavk-androidx:master",
+            rotadilavk:[
+                    core: "com.github.alexxxdev.RotadilavK:rotadilavk:master",
+                    androidx: "com.github.alexxxdev.RotadilavK:rotadilavk-androidx:master"
+            ],
             loadingbutton: "com.github.yatindeokar:MyLoadingButton:v1.0.1",
             avvylib: "xyz.schwaab:avvylib:0.0.1",
             backdrop: "ru.semper-viventem.backdrop:backdrop:0.1.5_x",
@@ -109,5 +112,10 @@ ext {
         implementation dep.fuel.android
         implementation dep.fuel.coroutines
         implementation dep.fuel.serialization
+    }
+
+    rotadilavk = Group {
+        implementation dep.rotadilavk.core
+        implementation dep.rotadilavk.androidx
     }
 }
