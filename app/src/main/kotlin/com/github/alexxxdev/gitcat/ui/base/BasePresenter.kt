@@ -26,6 +26,10 @@ open class BasePresenter<V : BaseContract.View> : TiPresenter<V>(PRESENTER_CONFI
     protected val graphQLRepository by inject<GraphQLRepository>()
     protected val navigator by inject<Navigator>()
 
+    override fun attachView(view: V) {
+        super.attachView(view)
+    }
+
     @CallSuper
     override fun onDestroy() {
         super.onDestroy()

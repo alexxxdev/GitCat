@@ -67,6 +67,7 @@ class FeedFragment : BaseFragment<FeedContract.View, FeedPresenter>(), FeedContr
             userAvatarView.name = user.name
             userAvatarView.avatarUrl = user.avatarUrl
             userAvatarView.setOnClickListener { selectUser(user) }
+            userAvatarView.setOnNotifClickListener { selectUserNotifications(user) }
 
             user.organizations.nodes.sortedBy { it.name }.forEach { org ->
                 val avatarWithNameView = AvatarWithNameView(context)
@@ -104,5 +105,12 @@ class FeedFragment : BaseFragment<FeedContract.View, FeedPresenter>(), FeedContr
         avatarInToolbar.avatarUrl = user.avatarUrl
         backdropBehavior.close(true)
         presenter.onSelectUser(user)
+    }
+
+    private fun selectUserNotifications(user: User) {
+        avatarInToolbar.name = user.name
+        avatarInToolbar.avatarUrl = user.avatarUrl
+        backdropBehavior.close(true)
+        presenter.onSelectUserNotifications(user)
     }
 }

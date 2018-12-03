@@ -3,15 +3,18 @@ package com.github.alexxxdev.gitcat.common.widget
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.LinearLayout
 import com.github.alexxxdev.gitcat.R
 import com.github.alexxxdev.gitcat.common.GlideApp
 import com.github.alexxxdev.gitcat.common.defaultOptions
 import kotlinx.android.synthetic.main.widget_avatar_with_name.view.avatarView
 import kotlinx.android.synthetic.main.widget_avatar_with_name.view.nameTextView
+import kotlinx.android.synthetic.main.widget_avatar_with_name.view.notifButton
 import org.jetbrains.anko.textColor
 
 class AvatarWithNameView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : LinearLayout(context, attrs, defStyleAttr) {
+
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         inflater.inflate(R.layout.widget_avatar_with_name, this, true)
@@ -38,4 +41,9 @@ class AvatarWithNameView @JvmOverloads constructor(context: Context, attrs: Attr
                         .into(avatarView)
             }
         }
+
+    fun setOnNotifClickListener(block: () -> Unit) {
+        notifButton.visibility = View.VISIBLE
+        notifButton.setOnClickListener { block() }
+    }
 }

@@ -18,5 +18,6 @@ interface FeedContract : BaseContract {
     interface Presenter : BaseContract.Presenter {
         fun onSelectOrganisation(org: OrganizationSmall)
         fun onSelectUser(user: User)
+        fun onSelectUserNotifications(user: User)
     }
 }

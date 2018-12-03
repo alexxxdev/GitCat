@@ -14,16 +14,18 @@ import net.grandcentrix.thirtyinch.kotlin.deliverToView
 class FeedPresenter : BasePresenter<FeedContract.View>(), FeedContract.Presenter {
 
     private var pagedList: PagedList<Event>
+    private val dataSource: FeedDataSource
+    private val config: PagedList.Config
 
     init {
-        val config = PagedList.Config.Builder()
+        config = PagedList.Config.Builder()
                 .setEnablePlaceholders(false)
                 .setPageSize(PAGE_SIZE)
                 .setInitialLoadSizeHint(PAGE_SIZE)
                 .setPrefetchDistance(PAGE_SIZE)
                 .build()
 
-        val dataSource = FeedDataSource {
+        dataSource = FeedDataSource {
             deliverToView { setState(it) }
         }
 
@@ -45,8 +47,16 @@ class FeedPresenter : BasePresenter<FeedContract.View>(), FeedContract.Presenter
     }
 
     override fun onSelectUser(user: User) {
+        pagedList = PagedList.Builder(dataSource, config)
+                .setFetchExecutor(Executors.newSingleThreadExecutor())
+                .setNotifyExecutor(MainThreadExecutor())
+                .build()
+        deliverToView { setFeed(pagedList) }
     }
 
     override fun onSelectOrganisation(org: OrganizationSmall) {
+    }
+
+    override fun onSelectUserNotifications(user: User) {
     }
 }
