@@ -1,20 +1,27 @@
 package com.github.alexxxdev.gitcat.data
 
+import com.github.alexxxdev.fuelcomfy.setInterface
+import com.github.alexxxdev.gitcat.data.model.common.Error
 import com.github.alexxxdev.gitcat.data.model.common.GraphQLData
 import com.github.alexxxdev.gitcat.data.model.common.Result
 import com.github.alexxxdev.gitcat.data.model.common.UserData
+import com.github.kittinunf.fuel.core.FuelError
+import com.github.kittinunf.fuel.core.FuelManager
 
 class GraphQLRepository(
-    private val authRepository: AuthRepository,
-    private val graphQLClient: GithubGraphQLClient
+    private val authRepository: AuthRepository
 ) {
-
+    val service: GithubGraphQLService
+    val token: String
     init {
-        graphQLClient.token = authRepository.getToken()
+        token = authRepository.getToken().orEmpty()
+        FuelManager.instance.basePath = "https://api.github.com"
+        service = FuelManager.instance.setInterface(GithubGraphQLService::class)
     }
 
     fun getUserInfo(login: String): Result<GraphQLData<UserData>> {
-        val result = graphQLClient.getUserInfo("{\"query\": \"query {" +
+
+        val result = service.getUserInfo(token, "{\"query\": \"query {" +
                 "user(login: \\\"${login}\\\") {" +
                 "id,login,name,avatarUrl,bio,company,email,location,resourcePath,url,updatedAt,websiteUrl," +
                 "commitComments{totalCount}," +
@@ -33,7 +40,16 @@ class GraphQLRepository(
                 "pinnedRepositories(first: 3, orderBy: {field: CREATED_AT, direction: ASC}){totalCount,nodes{id,name,description,nameWithOwner,url,createdAt,parent{id,name,description,nameWithOwner,url,createdAt}}}," +
                 "}" +
                 "}\"}")
-        authRepository.user = result.value()?.data?.user
-        return result
+
+        return if (result.component2() != null) {
+            Result.error(Error.of((result.component2() as FuelError).response.statusCode, result.component2() as? FuelError))
+        } else {
+            if (result.component1()?.data == null) {
+                Result.error(Error.of(0, result.component1()?.errors))
+            } else {
+                authRepository.user = result.component1()?.data?.user
+                Result.of(result.component1())
+            }
+        }
     }
 }

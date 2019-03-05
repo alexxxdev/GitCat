@@ -25,9 +25,9 @@ class Error(val exception: Exception = Exception("Unknown error"), val code: Int
             ex?.let { error ->
                 val string = String(error.errorData)
                 val error = JSON.nonstrict.parse<Data>(string)
-                return Error(exception, code, error.message)
+                return Error(exception as Exception, code, error.message)
             }
-            return Error(exception, code)
+            return Error(exception as Exception, code)
         }
 
         fun of(code: Int, errors: List<GraphQLError>?): Error {

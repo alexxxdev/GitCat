@@ -6,6 +6,7 @@ import com.github.alexxxdev.gitcat.data.model.common.Result
 import com.github.alexxxdev.gitcat.data.model.rest.Event
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.FuelManager
+import com.github.kittinunf.fuel.core.extensions.httpString
 import com.github.kittinunf.fuel.serialization.kotlinxDeserializerOf
 import kotlinx.serialization.json.JSON
 import kotlinx.serialization.list

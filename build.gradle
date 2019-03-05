@@ -1,6 +1,13 @@
 buildscript {
     apply from: 'dependencies.gradle'
 
+    ext.kotlinxSerializationVersion = '0.10.0'
+    ext.gradleVersionsPlugin = '0.20.0'
+    ext.kotlinxMetadataVersion = '0.0.5'
+    ext.kotlinpoetVersion = '1.0.1'
+    ext.fuelVersion = '2.0.1'
+    ext.spekVersion = '2.0.0'
+
     repositories {
         google()
         jcenter()
@@ -10,7 +17,7 @@ buildscript {
 
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.0-alpha06'
+        classpath 'com.android.tools.build:gradle:3.4.0-beta05'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlinVersion"
         classpath "com.github.ben-manes:gradle-versions-plugin:0.20.0"

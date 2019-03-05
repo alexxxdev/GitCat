@@ -11,6 +11,8 @@ import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.FuelManager
 import com.github.kittinunf.fuel.core.Request
 import com.github.kittinunf.fuel.core.Response
+import com.github.kittinunf.fuel.core.extensions.authenticate
+import com.github.kittinunf.fuel.core.extensions.httpString
 import com.github.kittinunf.fuel.serialization.kotlinxDeserializerOf
 import kotlinx.serialization.ImplicitReflectionSerializer
 import kotlinx.serialization.json.JSON

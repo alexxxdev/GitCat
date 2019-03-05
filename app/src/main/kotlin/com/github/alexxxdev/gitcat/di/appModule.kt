@@ -1,6 +1,5 @@
 package com.github.alexxxdev.gitcat.di
 
-import com.github.alexxxdev.gitcat.data.GithubGraphQLClient
 import com.github.alexxxdev.gitcat.data.GithubRestClient
 import com.github.alexxxdev.gitcat.data.GraphQLRepository
 import com.github.alexxxdev.gitcat.data.UserRepository
@@ -10,8 +9,7 @@ import org.koin.dsl.module.module
 
 val appModule: Module = module {
     single { Navigator() }
-    single { GithubGraphQLClient() }
-    single { GraphQLRepository(get(), get()) }
+    single { GraphQLRepository(get()) }
     single { GithubRestClient() }
     single { UserRepository(get(), get()) }
 }
