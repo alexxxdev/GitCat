@@ -5,6 +5,7 @@ import com.github.alexxxdev.gitcat.common.widget.recyclerview.State
 import com.github.alexxxdev.gitcat.data.model.graphql.OrganizationSmall
 import com.github.alexxxdev.gitcat.data.model.graphql.User
 import com.github.alexxxdev.gitcat.data.model.rest.Event
+import com.github.alexxxdev.gitcat.data.model.rest.Notification
 import com.github.alexxxdev.gitcat.ui.base.BaseContract
 
 interface FeedContract : BaseContract {
@@ -13,6 +14,7 @@ interface FeedContract : BaseContract {
         fun setFeed(list: PagedList<Event>)
         fun setState(state: State)
         fun onError(message: String)
+        fun setNotifications(notificationPagedList: PagedList<Notification>)
     }
 
     interface Presenter : BaseContract.Presenter {

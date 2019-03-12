@@ -1,7 +1,6 @@
 package com.github.alexxxdev.gitcat.data
 
 import android.util.Log
-import awaitObjectResponse
 import com.github.alexxxdev.gitcat.BuildConfig
 import com.github.alexxxdev.gitcat.data.model.auth.AuthorizationRequest
 import com.github.alexxxdev.gitcat.data.model.auth.AuthorizationResponse
@@ -14,6 +13,7 @@ import com.github.kittinunf.fuel.core.Request
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.fuel.core.extensions.authenticate
 import com.github.kittinunf.fuel.core.extensions.httpString
+import com.github.kittinunf.fuel.coroutines.awaitObjectResponseResult
 import com.github.kittinunf.fuel.serialization.kotlinxDeserializerOf
 import kotlinx.serialization.ImplicitReflectionSerializer
 import kotlinx.serialization.json.JSON
@@ -54,7 +54,7 @@ class GithubAuthClient : KoinComponent {
         val responseObject = Fuel.post("/authorizations")
                 .authenticate(login, password)
                 .body(JSON.stringify(authRequest))
-                .awaitObjectResponse(kotlinxDeserializerOf<AuthorizationResponse>(json = JSON.nonstrict))
+                .awaitObjectResponseResult(kotlinxDeserializerOf<AuthorizationResponse>(json = JSON.nonstrict))
 
         return if (responseObject.second.statusCode == CODE_AUTH_SUCCESS) {
             Result.of(responseObject.third.component1())
@@ -75,7 +75,7 @@ class GithubAuthClient : KoinComponent {
                 .header(HEADER_OTP to code)
                 .authenticate(login ?: "", password ?: "")
                 .body(JSON.stringify(authRequest))
-                .awaitObjectResponse(kotlinxDeserializerOf<AuthorizationResponse>(json = JSON.nonstrict))
+                .awaitObjectResponseResult(kotlinxDeserializerOf<AuthorizationResponse>(json = JSON.nonstrict))
 
         return if (responseObject.second.statusCode == CODE_AUTH_SUCCESS) {
             Result.of(responseObject.third.component1())
