@@ -19,7 +19,7 @@ class GraphQLRepository(
         service = FuelManager.instance.setInterface(GithubGraphQLService::class)
     }
 
-    fun getUserInfo(login: String): Result<GraphQLData<UserData>> {
+    suspend fun getUserInfo(login: String): Result<GraphQLData<UserData>> {
 
         val result = service.getUserInfo(token, "{\"query\": \"query {" +
                 "user(login: \\\"${login}\\\") {" +

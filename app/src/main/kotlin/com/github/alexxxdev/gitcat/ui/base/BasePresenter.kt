@@ -6,7 +6,6 @@ import com.github.alexxxdev.gitcat.data.GraphQLRepository
 import com.github.alexxxdev.gitcat.ui.Navigator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import net.grandcentrix.thirtyinch.TiConfiguration
 import net.grandcentrix.thirtyinch.TiPresenter
@@ -51,15 +50,10 @@ open class BasePresenter<V : BaseContract.View> : TiPresenter<V>(PRESENTER_CONFI
 
     fun checkUserInfo() {
         GlobalScope.launch(Dispatchers.Main) {
-            async(Dispatchers.Default) {
-                graphQLRepository.getUserInfo(authRepository.login ?: "")
-            }.await().fold({ data ->
-                if (data.errors.isEmpty()) {
-                    deliverToView { onInitSuccess() }
-                } else {
-                    deliverToView { onInitError(data.errors.first().message) }
-                }
+            graphQLRepository.getUserInfo(authRepository.login ?: "").fold({ data ->
+                deliverToView { onInitSuccess() }
             }, { error ->
+                //or GraphQLException
                 deliverToView { onInitError(error.exception.localizedMessage) }
             })
         }

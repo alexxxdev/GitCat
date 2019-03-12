@@ -1,6 +1,7 @@
 package com.github.alexxxdev.gitcat.data
 
 import android.util.Log
+import awaitObjectResponse
 import com.github.alexxxdev.gitcat.BuildConfig
 import com.github.alexxxdev.gitcat.data.model.auth.AuthorizationRequest
 import com.github.alexxxdev.gitcat.data.model.auth.AuthorizationResponse
@@ -31,7 +32,7 @@ class Need2FAException(message: String) : Exception(message)
 
 class GithubAuthClient : KoinComponent {
 
-    private val authRequest = AuthorizationRequest("GitCat", listOf("user:email", "public_repo", "read:org"))
+    private val authRequest = AuthorizationRequest("GitCat", listOf("user:email", "public_repo", "read:org", "notifications", "repo"))
 
     private fun loggerInterceptor() =
             { next: (Request, Response) -> Response ->
@@ -49,11 +50,11 @@ class GithubAuthClient : KoinComponent {
     }
 
     @UseExperimental(ImplicitReflectionSerializer::class)
-    fun login(login: String, password: String): Result<AuthorizationResponse> {
+    suspend fun login(login: String, password: String): Result<AuthorizationResponse> {
         val responseObject = Fuel.post("/authorizations")
                 .authenticate(login, password)
                 .body(JSON.stringify(authRequest))
-                .responseObject(kotlinxDeserializerOf<AuthorizationResponse>(json = JSON.nonstrict))
+                .awaitObjectResponse(kotlinxDeserializerOf<AuthorizationResponse>(json = JSON.nonstrict))
 
         return if (responseObject.second.statusCode == CODE_AUTH_SUCCESS) {
             Result.of(responseObject.third.component1())
@@ -69,12 +70,12 @@ class GithubAuthClient : KoinComponent {
     }
 
     @UseExperimental(ImplicitReflectionSerializer::class)
-    fun send2FACode(login: String?, password: String?, code: String): Result<AuthorizationResponse> {
+    suspend fun send2FACode(login: String?, password: String?, code: String): Result<AuthorizationResponse> {
         val responseObject = Fuel.post("/authorizations")
                 .header(HEADER_OTP to code)
                 .authenticate(login ?: "", password ?: "")
                 .body(JSON.stringify(authRequest))
-                .responseObject(kotlinxDeserializerOf<AuthorizationResponse>(json = JSON.nonstrict))
+                .awaitObjectResponse(kotlinxDeserializerOf<AuthorizationResponse>(json = JSON.nonstrict))
 
         return if (responseObject.second.statusCode == CODE_AUTH_SUCCESS) {
             Result.of(responseObject.third.component1())
