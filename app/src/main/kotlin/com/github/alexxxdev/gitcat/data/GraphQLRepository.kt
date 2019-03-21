@@ -7,8 +7,6 @@ import com.github.alexxxdev.gitcat.data.model.common.Result
 import com.github.alexxxdev.gitcat.data.model.common.UserData
 import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.FuelManager
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class GraphQLRepository(
     private val authRepository: AuthRepository
@@ -22,8 +20,8 @@ class GraphQLRepository(
     }
 
     suspend fun getUserInfo(login: String): Result<GraphQLData<UserData>> {
-        val result = withContext(Dispatchers.IO) {
-            service.getUserInfo(token, "{\"query\": \"query {" +
+        val result = service.getUserInfo(
+            token, "{\"query\": \"query {" +
                     "user(login: \\\"${login}\\\") {" +
                     "id,login,name,avatarUrl,bio,company,email,location,resourcePath,url,updatedAt,websiteUrl," +
                     "commitComments{totalCount}," +
@@ -42,7 +40,6 @@ class GraphQLRepository(
                     "pinnedRepositories(first: 3, orderBy: {field: CREATED_AT, direction: ASC}){totalCount,nodes{id,name,description,nameWithOwner,url,createdAt,parent{id,name,description,nameWithOwner,url,createdAt}}}," +
                     "}" +
                     "}\"}")
-        }
 
         return if (result.component2() != null) {
             Result.error(Error.of((result.component2() as FuelError).response.statusCode, result.component2() as? FuelError))

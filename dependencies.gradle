@@ -15,7 +15,7 @@ ext {
     koinVersion = '1.0.2'
     glideVersion = '4.8.0'
     fuelVersion = '2.0.1'
-    fuelComfyVersion = '1.0.3'
+    fuelComfyVersion = '8b7114df8737153a2b81409a36e6b5d9d2364e89'
     thirtyinchVersion = '0.9.0'
 
     detektGradlePluginVersion = '1.0.0.RC9.2'
@@ -55,11 +55,12 @@ ext {
                     kotlin: "net.grandcentrix.thirtyinch:thirtyinch-kotlin:$thirtyinchVersion"
             ],
             fuel         : [
-                    android        : "com.github.kittinunf.fuel:fuel-android:$fuelVersion", //for Android
-                    coroutines     : "com.github.kittinunf.fuel:fuel-coroutines:$fuelVersion", //for Kotlin Coroutines support
-                    serialization  : "com.github.kittinunf.fuel:fuel-kotlinx-serialization:$fuelVersion", //for Kotlin Coroutines support
-                    comfyApi       :"com.github.alexxxdev.fuel-comfy:api:$fuelComfyVersion",
-                    comfyProcessor : "com.github.alexxxdev.fuel-comfy:processor:$fuelComfyVersion"
+                    android                  : "com.github.kittinunf.fuel:fuel-android:$fuelVersion", //for Android
+                    coroutines               : "com.github.kittinunf.fuel:fuel-coroutines:$fuelVersion", //for Kotlin Coroutines support
+                    serialization            : "com.github.kittinunf.fuel:fuel-kotlinx-serialization:$fuelVersion", //for Kotlin Coroutines support
+                    comfyApi                 : "com.github.alexxxdev.fuel-comfy:api:$fuelComfyVersion",
+                    comfyProcessor           : "com.github.alexxxdev.fuel-comfy:processor:$fuelComfyVersion",
+                    comfyProcessorCoroutines : "com.github.alexxxdev.fuel-comfy:processor-coroutines:$fuelComfyVersion"
             ],
             rotadilavk:[
                     core: "com.github.alexxxdev.RotadilavK:rotadilavk:master",
@@ -119,6 +120,7 @@ ext {
         implementation dep.fuel.serialization
         implementation dep.fuel.comfyApi
         kapt dep.fuel.comfyProcessor
+        implementation dep.fuel.comfyProcessorCoroutines
     }
 
     rotadilavk = Group {

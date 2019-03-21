@@ -13,5 +13,5 @@ import com.github.kittinunf.result.Result
 interface GithubGraphQLService {
     @Post("/graphql")
     @Header("Authorization", "bearer {token}")
-    fun getUserInfo(@Param("token") token: String, @Body query: String): Result<GraphQLData<UserData>, Exception>
+    suspend fun getUserInfo(@Param("token") token: String, @Body query: String): Result<GraphQLData<UserData>, Exception>
 }
