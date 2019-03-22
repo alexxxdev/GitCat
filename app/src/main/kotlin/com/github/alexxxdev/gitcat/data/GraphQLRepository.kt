@@ -1,5 +1,6 @@
 package com.github.alexxxdev.gitcat.data
 
+import com.github.alexxxdev.fuelcomfy.SerializationStrategy
 import com.github.alexxxdev.fuelcomfy.setInterface
 import com.github.alexxxdev.gitcat.data.model.common.Error
 import com.github.alexxxdev.gitcat.data.model.common.GraphQLData
@@ -7,6 +8,7 @@ import com.github.alexxxdev.gitcat.data.model.common.Result
 import com.github.alexxxdev.gitcat.data.model.common.UserData
 import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.FuelManager
+import kotlinx.serialization.json.Json
 
 class GraphQLRepository(
     private val authRepository: AuthRepository
@@ -17,6 +19,7 @@ class GraphQLRepository(
         token = authRepository.getToken().orEmpty()
         FuelManager.instance.basePath = "https://api.github.com"
         service = FuelManager.instance.setInterface(GithubGraphQLService::class)
+        SerializationStrategy.json = Json.nonstrict
     }
 
     suspend fun getUserInfo(login: String): Result<GraphQLData<UserData>> {

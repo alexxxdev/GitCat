@@ -15,7 +15,7 @@ ext {
     koinVersion = '1.0.2'
     glideVersion = '4.8.0'
     fuelVersion = '2.0.1'
-    fuelComfyVersion = '8b7114df8737153a2b81409a36e6b5d9d2364e89'
+    fuelComfyVersion = '1306295ecd'
     thirtyinchVersion = '0.9.0'
 
     detektGradlePluginVersion = '1.0.0.RC9.2'
