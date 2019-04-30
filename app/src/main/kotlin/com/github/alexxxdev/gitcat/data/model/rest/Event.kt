@@ -42,7 +42,6 @@ data class Actor(
     val id: Int,
     val login: String,
     @SerialName("display_login") val displayLogin: String,
-    @SerialName("gravatar_id") val gravatarId: String,
     @SerialName("avatar_url") val avatarUrl: String,
     val url: String
 )
@@ -51,12 +50,31 @@ data class Actor(
 data class Org(
     val id: Int,
     val login: String,
-    @SerialName("gravatar_id") val gravatarId: String,
     @SerialName("avatar_url") val avatarUrl: String,
     val url: String
 )
 
 @Serializable
 data class Payload(
-    @Optional var action: String = ""
+        @Optional var action: String = "",
+        @Optional var ref: String? = "",
+        @Optional var ref_type: String = "",
+        @Optional var pusher_type: String = "",
+        @Optional var push_id: Long = 0L,
+        @Optional var size: Int = 0,
+        @Optional var distinct_size: Int = 0,
+        @Optional var number: Int = 0,
+        @Optional var issue: Issue? = null,
+        @Optional var member: Member? = null
+)
+
+@Serializable
+data class Member(
+        @Optional var login: String = ""
+)
+
+
+@Serializable
+data class Issue(
+        @Optional var number: Int = 0
 )

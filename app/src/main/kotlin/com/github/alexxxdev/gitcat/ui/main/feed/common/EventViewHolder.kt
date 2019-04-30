@@ -30,6 +30,25 @@ class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                         .apply(defaultOptions)
                         .into(itemView.avatarView)
             }
+            when (type) {
+                "WatchEvent" -> itemView.actionTV.text = "starred"
+                "DeleteEvent" -> itemView.actionTV.text = "deleted ${payload?.ref_type} ${payload?.ref} at"
+                "PushEvent" -> {
+                    if (payload?.ref?.startsWith("refs/heads/") == true) {
+                        itemView.actionTV.text = "pushed to ${payload?.ref?.substring(11)} at"
+                    } else {
+                        itemView.actionTV.text = "pushed to ${payload?.ref} at"
+                    }
+                }
+                "PullRequestEvent" -> itemView.actionTV.text = "${payload?.action} pull request #${payload?.number}"
+                "CreateEvent" -> itemView.actionTV.text = "created ${payload?.ref_type} ${payload?.ref} at"
+                "IssueCommentEvent" -> itemView.actionTV.text = "commented on issue #${payload?.issue?.number}"
+                "IssuesEvent" -> itemView.actionTV.text = "${payload?.action} issue #${payload?.issue?.number}"
+                "ForkEvent" -> itemView.actionTV.text = "forked"
+                "MemberEvent" -> itemView.actionTV.text = "${payload?.action} ${payload?.member?.login} to"
+                "CommitCommentEvent" -> itemView.actionTV.text = "commented on commit"
+                else -> itemView.actionTV.text = type
+            }
         }
     }
 
