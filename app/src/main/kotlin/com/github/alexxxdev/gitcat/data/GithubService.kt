@@ -1,5 +1,6 @@
 package com.github.alexxxdev.gitcat.data
 
+import com.github.alexxxdev.fuelcomfy.KotlinSerializationAdapter
 import com.github.alexxxdev.fuelcomfy.annotation.FuelInterface
 import com.github.alexxxdev.fuelcomfy.annotation.Get
 import com.github.alexxxdev.fuelcomfy.annotation.Header
@@ -8,7 +9,7 @@ import com.github.alexxxdev.gitcat.data.model.rest.Event
 import com.github.alexxxdev.gitcat.data.model.rest.Notification
 import com.github.kittinunf.result.Result
 
-@FuelInterface
+@FuelInterface(KotlinSerializationAdapter::class)
 interface GithubService {
 
     @Get("/users/{username}/received_events?page={page}")
