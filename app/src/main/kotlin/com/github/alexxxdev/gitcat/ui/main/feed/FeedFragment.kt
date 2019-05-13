@@ -12,7 +12,7 @@ import com.github.alexxxdev.gitcat.common.widget.AvatarWithNameView
 import com.github.alexxxdev.gitcat.common.widget.recyclerview.State
 import com.github.alexxxdev.gitcat.data.model.graphql.OrganizationSmall
 import com.github.alexxxdev.gitcat.data.model.graphql.User
-import com.github.alexxxdev.gitcat.data.model.rest.Event
+import com.github.alexxxdev.gitcat.data.model.rest.Feed
 import com.github.alexxxdev.gitcat.ext.findBehavior
 import com.github.alexxxdev.gitcat.ui.base.BaseFragment
 import com.github.alexxxdev.gitcat.ui.main.feed.common.FeedAdapter
@@ -81,8 +81,12 @@ class FeedFragment : BaseFragment<FeedContract.View, FeedPresenter>(), FeedContr
         }
     }
 
-    override fun setFeed(list: PagedList<Event>) {
+    override fun setFeed(list: PagedList<Feed>) {
         feedAdapter.submitList(list)
+    }
+
+    override fun setNotifications(notificationPagedList: PagedList<Feed>) {
+        feedAdapter.submitList(notificationPagedList)
     }
 
     override fun setState(state: State) {

@@ -1,6 +1,5 @@
 package com.github.alexxxdev.gitcat.data.model.rest
 
-import androidx.recyclerview.widget.DiffUtil
 import kotlinx.serialization.Optional
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -18,15 +17,13 @@ data class Event(
     @Optional val actor: Actor? = null,
     @Optional val org: Org? = null,
     @Optional val payload: Payload? = null
-) {
-    class ItemDiffer : DiffUtil.ItemCallback<Event>() {
-        override fun areItemsTheSame(oldItem: Event, newItem: Event): Boolean {
-            return oldItem.id == newItem.id
-        }
+) : Feed {
+    override fun areContentsTheSameImpl(oldItem: Feed, newItem: Feed): Boolean {
+        return (oldItem as Event).id == (newItem as Event).id
+    }
 
-        override fun areContentsTheSame(oldItem: Event, newItem: Event): Boolean {
-            return oldItem == newItem
-        }
+    override fun areItemsTheSameImpl(oldItem: Feed, newItem: Feed): Boolean {
+        return oldItem == newItem
     }
 }
 
@@ -56,25 +53,24 @@ data class Org(
 
 @Serializable
 data class Payload(
-        @Optional var action: String = "",
-        @Optional var ref: String? = "",
-        @Optional var ref_type: String = "",
-        @Optional var pusher_type: String = "",
-        @Optional var push_id: Long = 0L,
-        @Optional var size: Int = 0,
-        @Optional var distinct_size: Int = 0,
-        @Optional var number: Int = 0,
-        @Optional var issue: Issue? = null,
-        @Optional var member: Member? = null
+    @Optional var action: String = "",
+    @Optional var ref: String? = "",
+    @Optional var ref_type: String = "",
+    @Optional var pusher_type: String = "",
+    @Optional var push_id: Long = 0L,
+    @Optional var size: Int = 0,
+    @Optional var distinct_size: Int = 0,
+    @Optional var number: Int = 0,
+    @Optional var issue: Issue? = null,
+    @Optional var member: Member? = null
 )
 
 @Serializable
 data class Member(
-        @Optional var login: String = ""
+    @Optional var login: String = ""
 )
-
 
 @Serializable
 data class Issue(
-        @Optional var number: Int = 0
+    @Optional var number: Int = 0
 )

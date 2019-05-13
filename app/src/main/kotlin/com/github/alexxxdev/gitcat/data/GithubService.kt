@@ -16,7 +16,7 @@ interface GithubService {
     @Header("Authorization", "bearer {token}")
     suspend fun getUserEvent(@Param("username") username: String, @Param("page") page: Int, @Param("token") token: String): Result<List<Event>, Exception>
 
-    @Get("/notifications?page={page}")
+    @Get("/notifications?all={all}&page={page}&&per_page=200")
     @Header("Authorization", "bearer {token}")
-    suspend fun getUserNotification(@Param("page") page: Int, @Param("token") token: String): Result<List<Notification>, Exception>
+    suspend fun getUserNotification(@Param("page") page: Int, @Param("all") all: Boolean, @Param("token") token: String): Result<List<Notification>, Exception>
 }

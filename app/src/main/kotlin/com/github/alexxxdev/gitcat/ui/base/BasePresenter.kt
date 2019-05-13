@@ -53,7 +53,7 @@ open class BasePresenter<V : BaseContract.View> : TiPresenter<V>(PRESENTER_CONFI
             graphQLRepository.getUserInfo(authRepository.login ?: "").fold({ data ->
                 deliverToView { onInitSuccess() }
             }, { error ->
-                //or GraphQLException
+                // or GraphQLException
                 deliverToView { onInitError(error.exception.localizedMessage) }
             })
         }
