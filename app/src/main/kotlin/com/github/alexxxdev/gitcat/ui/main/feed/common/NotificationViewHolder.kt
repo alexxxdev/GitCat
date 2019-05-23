@@ -42,6 +42,11 @@ class NotificationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
                     itemView.typeIV.imageTintList = ColorStateList.valueOf(itemView.context.resources.getColor(R.color.white))
                     itemView.typeIV.backgroundTintList = ColorStateList.valueOf(itemView.context.resources.getColor(R.color.indigoA700))
                 }
+                "Commit" -> {
+                    itemView.typeIV.setImageResource(R.drawable.ic_commit)
+                    itemView.typeIV.imageTintList = ColorStateList.valueOf(itemView.context.resources.getColor(R.color.white))
+                    itemView.typeIV.backgroundTintList = ColorStateList.valueOf(itemView.context.resources.getColor(R.color.redA200))
+                }
                 else -> itemView.typeIV.setImageResource(0)
             }
         }
