@@ -6,6 +6,7 @@ import kotlinx.serialization.ImplicitReflectionSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JSON
+import kotlinx.serialization.json.Json
 import kotlinx.serialization.parse
 
 class Error(val exception: Exception = Exception("Unknown error"), val code: Int = 0, private val msg: String? = null) {
@@ -23,9 +24,12 @@ class Error(val exception: Exception = Exception("Unknown error"), val code: Int
         fun of(code: Int, ex: FuelError?): Error {
             val exception = ex?.exception ?: Exception("Unknown error")
             ex?.let { error ->
-                val string = String(error.errorData)
-                val error = JSON.nonstrict.parse<Data>(string)
-                return Error(exception as Exception, code, error.message)
+                return if(!error.response.body().isConsumed()) {
+                    val string = String(error.errorData)
+                    Error(exception as Exception, code, Json.nonstrict.parse<Data>(string).message)
+                } else {
+                    Error(exception as Exception, code, error.message)
+                }
             }
             return Error(exception as Exception, code)
         }
