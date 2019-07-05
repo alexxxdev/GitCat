@@ -69,6 +69,7 @@ class FeedFragment : BaseFragment<FeedContract.View, FeedPresenter>(), FeedContr
             userAvatarView.setOnClickListener { selectUser(user) }
             userAvatarView.setOnNotifClickListener { selectUserNotifications(user) }
 
+            avatarViewContainer.removeViews(1, avatarViewContainer.childCount-1)
             user.organizations.nodes.sortedBy { it.name }.forEach { org ->
                 val avatarWithNameView = AvatarWithNameView(context)
                 avatarWithNameView.name = org.name
