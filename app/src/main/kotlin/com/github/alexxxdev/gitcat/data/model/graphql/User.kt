@@ -19,7 +19,7 @@ data class User(
         @Serializable(with = AnySerializer::class) val url: Any,
         val updatedAt: String,
         val websiteUrl: String,
-        val commitComments: GraphQLNode<@Serializable(with = AnySerializer::class) Any>,
+        val commitComments: GraphQLNode<Empty>,
         val followers: GraphQLNode<UserSmall>,
         val following: GraphQLNode<UserSmall>,
         val gists: GraphQLNode<Empty>,
@@ -34,4 +34,3 @@ data class User(
         val organizations: GraphQLNode<OrganizationSmall>,
         val pinnedRepositories: GraphQLNode<RepositorySmall>
 )
-
